@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AGI-1 Command Center Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">
+            <span class="brand-core"></span>
+            <span class="brand-ring"></span>
+          </div>
+          <div>
+            <p class="eyebrow">Fair Group AI</p>
+            <h1>AGI-1 Command Center</h1>
+          </div>
+        </div>
+
+        <div class="sidebar-search">
+          <input id="nav-search" type="search" placeholder="Search modules" />
+        </div>
+
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Admin navigation"></nav>
+
+        <div class="sidebar-footer panel">
+          <p class="eyebrow">Aegis Guardrail</p>
+          <div class="footer-row">
+            <span class="status-pill success">Always On</span>
+            <span class="muted">Policy latency 12ms</span>
+          </div>
+          <p class="muted small">
+            Alignment, safety, and unbiased enforcement are live across all active sessions.
+          </p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p id="view-breadcrumb" class="eyebrow">Dashboard / Command Center</p>
+            <h2 id="view-title">Command Center</h2>
+          </div>
+
+          <div class="topbar-actions">
+            <div class="signal-card panel">
+              <span class="signal-label">AGI Runtime</span>
+              <div class="signal-value">
+                <span id="system-indicator" class="status-dot status-green"></span>
+                <strong id="system-label">Operational</strong>
+              </div>
+            </div>
+
+            <div class="signal-card panel">
+              <span class="signal-label">Live Users</span>
+              <strong id="live-users-top">12,842</strong>
+            </div>
+
+            <button class="command-button" type="button">Run System Sweep</button>
+          </div>
+        </header>
+
+        <section class="hero-panel panel">
+          <div class="hero-copy">
+            <p class="eyebrow">Sovereign AGI Runtime</p>
+            <h3>One control surface for Jack, Julia, Singularity, and Aegis.</h3>
+            <p class="hero-text">
+              Monitor digital humans, workforce agents, revenue flows, infrastructure health,
+              and live user activity from a single operational dashboard built for executive and
+              engineering control.
+            </p>
+            <div class="hero-stats">
+              <div>
+                <span>Realtime Sessions</span>
+                <strong id="hero-realtime-sessions">324</strong>
+              </div>
+              <div>
+                <span>Tasks Closed Today</span>
+                <strong id="hero-tasks">41,228</strong>
+              </div>
+              <div>
+                <span>Revenue Today</span>
+                <strong id="hero-revenue">$428,912</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual panel">
+            <svg viewBox="0 0 420 280" class="brain-illustration" aria-hidden="true">
+              <defs>
+                <linearGradient id="brainGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#72f5ff"></stop>
+                  <stop offset="55%" stop-color="#ff8e3c"></stop>
+                  <stop offset="100%" stop-color="#2a66ff"></stop>
+                </linearGradient>
+              </defs>
+              <g fill="none" stroke="url(#brainGlow)" stroke-width="2.5">
+                <path d="M152 44c-36 0-64 28-64 64 0 12 3 22 8 32-20 9-34 30-34 54 0 33 27 60 60 60h22c7 14 22 24 39 24 17 0 32-10 39-24h26c35 0 64-29 64-64 0-24-14-45-34-54 5-10 8-20 8-32 0-36-28-64-64-64-16 0-30 5-41 13-11-8-25-13-41-13z"></path>
+                <path d="M210 63v157"></path>
+                <path d="M123 112h64"></path>
+                <path d="M235 112h62"></path>
+                <path d="M144 170h42"></path>
+                <path d="M235 170h42"></path>
+                <path d="M162 85l24 27"></path>
+                <path d="M258 85l-24 27"></path>
+                <path d="M160 197l26-21"></path>
+                <path d="M260 197l-26-21"></path>
+              </g>
+              <g fill="#eef7ff">
+                <circle cx="210" cy="62" r="6"></circle>
+                <circle cx="210" cy="112" r="6"></circle>
+                <circle cx="210" cy="171" r="6"></circle>
+                <circle cx="123" cy="112" r="6"></circle>
+                <circle cx="296" cy="112" r="6"></circle>
+                <circle cx="144" cy="170" r="6"></circle>
+                <circle cx="277" cy="170" r="6"></circle>
+              </g>
+            </svg>
+            <div class="hero-legend">
+              <span><i class="legend-swatch cyan"></i> Reasoning lattice</span>
+              <span><i class="legend-swatch orange"></i> Action graph</span>
+              <span><i class="legend-swatch blue"></i> Live orchestration</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-content" class="view-content" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <template id="metric-card-template">
+      <article class="metric-card panel">
+        <div class="metric-header">
+          <span class="metric-label"></span>
+          <span class="metric-trend"></span>
+        </div>
+        <strong class="metric-value"></strong>
+        <p class="metric-caption muted"></p>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

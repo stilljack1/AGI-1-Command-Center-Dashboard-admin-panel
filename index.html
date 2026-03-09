@@ -59,7 +59,13 @@
               <strong id="live-users-top">12,842</strong>
             </div>
 
-            <button class="command-button" type="button">Run System Sweep</button>
+            <div class="signal-card panel">
+              <span class="signal-label">Control Tower API</span>
+              <strong id="api-connection-label">Seeded Preview</strong>
+              <span id="api-connection-detail" class="muted small">Backend not connected yet</span>
+            </div>
+
+            <button id="sync-button" class="command-button" type="button">Sync Control Tower</button>
           </div>
         </header>
 
@@ -142,6 +148,7 @@
       </article>
     </template>
 
+    <script src="./config.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

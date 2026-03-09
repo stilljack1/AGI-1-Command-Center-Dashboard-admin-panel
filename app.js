@@ -2,262 +2,449 @@ const navigation = [
   {
     group: "Dashboard",
     items: [
-      { id: "command-center", label: "Command Center", hint: "Executive overview", badge: "Live" },
-      { id: "system-health", label: "System Health", hint: "Runtime and uptime" },
+      { id: "command-center", label: "Command Center", hint: "Global AGI mission control", badge: "Live" },
+      { id: "system-health", label: "System Health", hint: "Runtime and infrastructure" },
     ],
   },
   {
     group: "Users",
     items: [
-      { id: "user-analytics", label: "User Analytics", hint: "Growth intelligence" },
-      { id: "downloads-location", label: "Downloads by Location", hint: "Country adoption" },
+      { id: "user-accounts", label: "User Accounts", hint: "Profiles and account types" },
+      { id: "user-activity", label: "Activity", hint: "Tasks, tokens, sessions" },
+      { id: "user-retention", label: "Retention", hint: "Churn and engagement" },
+    ],
+  },
+  {
+    group: "Team",
+    items: [
+      { id: "team-roles", label: "Roles", hint: "Internal operating structure" },
+      { id: "team-permissions", label: "Permissions", hint: "Access control matrix" },
+      { id: "team-access-logs", label: "Access Logs", hint: "Audit trail" },
     ],
   },
   {
     group: "Digital Humans",
     items: [
-      { id: "jack", label: "Jack", hint: "CEO avatar" },
-      { id: "julia", label: "Julia", hint: "CFO avatar" },
-      { id: "avatar-settings", label: "Avatar Settings", hint: "Voice and persona" },
+      { id: "jack", label: "Jack", hint: "CEO digital human" },
+      { id: "julia", label: "Julia", hint: "CFO digital human" },
+      { id: "avatar-settings", label: "Avatar Settings", hint: "Wake phrases and persona" },
     ],
   },
   {
     group: "Agents",
     items: [
-      { id: "workforce-agents", label: "Workforce Agents", hint: "All AI workers" },
-      { id: "task-automation", label: "Task Automation", hint: "Execution monitoring" },
-      { id: "marketplace-agents", label: "Marketplace Agents", hint: "Buying and selling" },
+      { id: "agent-list", label: "Agent List", hint: "Workforce directory" },
+      { id: "agent-performance", label: "Performance", hint: "Success and runtime" },
+      { id: "agent-rankings", label: "Rankings", hint: "Quality leaderboard" },
     ],
   },
   {
-    group: "Operations",
+    group: "Models",
     items: [
-      { id: "customer-interactions", label: "Customer Interactions", hint: "Voice and video" },
-      { id: "booking-systems", label: "Booking Systems", hint: "Reservations and travel" },
+      { id: "model-library", label: "Model Library", hint: "Reasoning, vision, speech" },
+      { id: "model-benchmarks", label: "Benchmarks", hint: "Latency, accuracy, cost" },
+      { id: "model-ab-testing", label: "A/B Testing", hint: "Variant evaluation" },
     ],
   },
   {
     group: "Analytics",
     items: [
-      { id: "performance-benchmarks", label: "Performance Benchmarks", hint: "Jack vs Julia" },
-      { id: "marketing-intelligence", label: "Marketing Intelligence", hint: "Campaign analytics" },
-      { id: "knowledge-brain", label: "Knowledge Brain Center", hint: "Graph and learning" },
+      { id: "data-analysis", label: "Data Analysis", hint: "Usage and collection" },
+      { id: "product-market-fit", label: "Product Market Fit", hint: "NPS and growth" },
+      { id: "user-behavior", label: "User Behavior", hint: "Journey and drop-off" },
+    ],
+  },
+  {
+    group: "Downloads",
+    items: [
+      { id: "install-analytics", label: "Install Analytics", hint: "Growth and uninstall" },
+      { id: "geographic-data", label: "Geographic Data", hint: "Global adoption map" },
+    ],
+  },
+  {
+    group: "Performance",
+    items: [
+      { id: "app-monitor", label: "App Monitor", hint: "iOS, Android, web" },
+      { id: "website-monitor", label: "Website Monitor", hint: "Traffic and page speed" },
+    ],
+  },
+  {
+    group: "Security",
+    items: [
+      { id: "threat-detection", label: "Threat Detection", hint: "Aegis alert console" },
+      { id: "token-protection", label: "Token Protection", hint: "API key governance" },
     ],
   },
   {
     group: "Finance",
-    items: [{ id: "revenue-dashboard", label: "Revenue Dashboard", hint: "Business intelligence" }],
-  },
-  {
-    group: "Infrastructure",
     items: [
-      { id: "app-monitoring", label: "App Monitoring", hint: "Web and mobile" },
-      { id: "server-monitoring", label: "Server Monitoring", hint: "CPU, GPU, network" },
+      { id: "revenue", label: "Revenue", hint: "Income and monetization" },
+      { id: "subscriptions", label: "Subscriptions", hint: "Tier health" },
     ],
   },
   {
-    group: "Management",
+    group: "System",
     items: [
-      { id: "team-access", label: "Team Access", hint: "Roles and ownership" },
-      { id: "permissions", label: "Permissions", hint: "Policy controls" },
+      { id: "system-settings", label: "Settings", hint: "Platform configuration" },
+      { id: "system-infrastructure", label: "Infrastructure", hint: "Cloud and runtime" },
+      { id: "system-integrations", label: "Integrations", hint: "Connected services" },
     ],
   },
   {
-    group: "Settings",
+    group: "Developer",
     items: [
-      { id: "agi-system-settings", label: "AGI System Settings", hint: "Master controls" },
-      { id: "integrations", label: "Integrations", hint: "APIs and connectors" },
+      { id: "developer-api-keys", label: "API Keys", hint: "Issued credentials" },
+      { id: "developer-usage", label: "API Usage", hint: "Traffic and rate limits" },
     ],
   },
 ];
 
+const fallbackSnapshot = {
+  meta: {
+    platform: "AGI-1",
+    organization: "Fair Group AI",
+    apiVersion: "2026.03",
+    environment: "seeded-preview",
+    generatedAt: new Date().toISOString(),
+  },
+  dashboard: {
+    status: { label: "Operational", tone: "green", uptime: "99.982%" },
+    metrics: {
+      activeUsers: 12842,
+      activeAgents: 1187,
+      tasksToday: 41228,
+      apiRequests: 3842216,
+      tokenUsage: "8.4B",
+      securityAlerts: 3,
+      revenueToday: 428912,
+      systemUptimeHours: 392,
+    },
+    charts: {
+      tasksPerMinute: [212, 244, 238, 281, 312, 329, 341, 368, 386, 402, 425, 448],
+      inferenceLoad: [54, 58, 55, 63, 68, 72, 76, 79, 81, 84, 87, 89],
+      gpuUsage: [42, 45, 48, 53, 57, 61, 66, 69, 72, 74, 78, 81],
+      memoryConsumption: [38, 39, 41, 43, 44, 46, 47, 49, 51, 50, 52, 54],
+    },
+    alerts: [
+      { severity: "warning", title: "Vector index lag", detail: "semantic refresh delayed 42 seconds in eu-west" },
+      { severity: "danger", title: "Login anomaly cluster", detail: "7 suspicious attempts blocked by Aegis in 3 minutes" },
+      { severity: "success", title: "Jack voice path stable", detail: "realtime voice latency held under 180ms" },
+    ],
+    notifications: [
+      { title: "Model drift sweep complete", detail: "Research model variance stayed below threshold." },
+      { title: "Julia satisfaction rising", detail: "Finance sessions reached 98.6% positive feedback." },
+      { title: "Marketplace automation burst", detail: "Order-handling agents closed 612 commerce tasks in the last hour." },
+    ],
+    recommendations: [
+      { title: "Shift 6 GPU workers to inference", detail: "Speech load is rising faster than research load." },
+      { title: "Increase enterprise onboarding automation", detail: "Activation funnel dips after API key generation." },
+      { title: "Tighten token quota on one developer segment", detail: "Abuse risk score elevated for sandbox-heavy keys." },
+    ],
+  },
+  users: {
+    summary: {
+      totalUsers: 184220,
+      dailyActiveUsers: 12842,
+      monthlyActiveUsers: 84210,
+      engagementScore: 87,
+      churnRisk: 11,
+    },
+    accounts: [
+      { name: "Maya Chen", email: "maya@futuredesk.ai", phone: "+1 415 555 0140", location: "San Francisco, US", type: "Enterprise", status: "Active" },
+      { name: "Daniel Okafor", email: "daniel@orbitmedia.io", phone: "+44 20 5550 1150", location: "London, UK", type: "Premium", status: "Active" },
+      { name: "Sophia Alvarez", email: "sophia@creatorstack.com", phone: "+1 786 555 0191", location: "Miami, US", type: "Developer", status: "Under review" },
+      { name: "Arjun Rao", email: "arjun@talentloop.in", phone: "+91 22 5552 1022", location: "Mumbai, IN", type: "Free", status: "Suspended" },
+    ],
+    activity: [
+      { user: "Maya Chen", tasksRequested: 182, agentsUsed: 24, tokenConsumption: "18.2M", loginHistory: "5 sessions / 24h" },
+      { user: "Daniel Okafor", tasksRequested: 134, agentsUsed: 18, tokenConsumption: "9.1M", loginHistory: "3 sessions / 24h" },
+      { user: "Sophia Alvarez", tasksRequested: 89, agentsUsed: 12, tokenConsumption: "4.6M", loginHistory: "2 sessions / 24h" },
+    ],
+    retention: {
+      day1: 80,
+      day7: 55,
+      day30: 32,
+      churnRate: 8.9,
+      sessionDuration: "18m 22s",
+    },
+    behavior: {
+      featureUsage: [
+        { label: "Chat assistant", value: 92 },
+        { label: "Task automation", value: 61 },
+        { label: "Marketplace agents", value: 34 },
+        { label: "Voice mode", value: 47 },
+      ],
+      journey: ["Login", "Prompt or wake phrase", "Task planning", "Execution", "Result review", "Feedback"],
+      heatmap: [
+        [7, 8, 5, 6, 9, 10, 12],
+        [6, 8, 10, 12, 14, 15, 13],
+        [5, 7, 11, 16, 18, 17, 15],
+        [4, 7, 9, 14, 17, 18, 16],
+      ],
+    },
+  },
+  team: {
+    roles: [
+      { role: "Owner", permissions: "Full access" },
+      { role: "Executive", permissions: "Strategic dashboards" },
+      { role: "Admin", permissions: "System config" },
+      { role: "Developer", permissions: "Models + infrastructure" },
+      { role: "Analyst", permissions: "Analytics only" },
+      { role: "Support", permissions: "User accounts" },
+    ],
+    members: [
+      { name: "Jacquelin Antoine", role: "Owner", scope: "Platform", lastActive: "2 min ago", status: "Active" },
+      { name: "Julia Ops Lead", role: "Executive", scope: "Finance + growth", lastActive: "8 min ago", status: "Active" },
+      { name: "Aegis Admin", role: "Admin", scope: "Security + policies", lastActive: "11 min ago", status: "Active" },
+      { name: "Infra Engineer", role: "Developer", scope: "Runtime + API", lastActive: "18 min ago", status: "Active" },
+    ],
+    accessLogs: [
+      { actor: "Jacquelin Antoine", event: "Updated infrastructure alert thresholds", time: "2026-03-08T20:42:00Z" },
+      { actor: "Aegis Admin", event: "Revoked developer sandbox token", time: "2026-03-08T20:30:00Z" },
+      { actor: "Infra Engineer", event: "Rotated edge deployment secrets", time: "2026-03-08T20:11:00Z" },
+    ],
+  },
+  digitalHumans: {
+    avatars: [
+      {
+        name: "Jack",
+        role: "CEO Digital Human",
+        status: "Online",
+        tasksHandled: 732,
+        conversationsToday: 189,
+        customerSatisfaction: 97.8,
+        performanceRating: "A+",
+        accuracy: 99.2,
+        latencyMs: 178,
+        outfitProfile: "Executive",
+      },
+      {
+        name: "Julia",
+        role: "CFO Digital Human",
+        status: "Online",
+        tasksHandled: 689,
+        conversationsToday: 204,
+        customerSatisfaction: 98.6,
+        performanceRating: "A+",
+        accuracy: 99.5,
+        latencyMs: 166,
+        outfitProfile: "Executive",
+      },
+    ],
+    wakePhrases: ["Hey Jack", "Hi Julia", "Good morning Julia", "Halo Jack"],
+    settings: [
+      { setting: "Persona parity", value: "Jack and Julia share the same core capability contract" },
+      { setting: "Outfit switching", value: "Contextual roles: doctor, executive, analyst, host" },
+      { setting: "Realtime mode", value: "Voice, text, and video are enabled through a unified session layer" },
+    ],
+  },
+  agents: {
+    summary: {
+      taskAgents: 812,
+      supervisorAgents: 144,
+      executiveAgents: 4,
+      researchAgents: 133,
+      customerAgents: 61,
+      securityAgents: 33,
+    },
+    list: [
+      { name: "Research Agent 482", type: "Research", tasksCompleted: 15201, accuracy: 98.4, qualityRating: 4.7, failureRate: 1.1, responseSpeedMs: 221 },
+      { name: "Coding Agent 031", type: "Task", tasksCompleted: 14114, accuracy: 97.8, qualityRating: 4.8, failureRate: 1.5, responseSpeedMs: 188 },
+      { name: "Support Agent 224", type: "Customer", tasksCompleted: 12421, accuracy: 95.9, qualityRating: 4.6, failureRate: 2.1, responseSpeedMs: 205 },
+      { name: "Finance Agent 014", type: "Executive", tasksCompleted: 9821, accuracy: 99.1, qualityRating: 4.9, failureRate: 0.4, responseSpeedMs: 174 },
+    ],
+    performance: [
+      { category: "Sales agents", successRate: 96.4, automationRate: 89.1, runtime: "Healthy" },
+      { category: "Customer service agents", successRate: 95.8, automationRate: 91.3, runtime: "Healthy" },
+      { category: "Research agents", successRate: 98.2, automationRate: 84.9, runtime: "Healthy" },
+      { category: "Booking agents", successRate: 94.7, automationRate: 86.8, runtime: "Monitor" },
+    ],
+    rankings: [
+      { agent: "Research Agent", accuracy: 98, rating: 4.8 },
+      { agent: "Coding Agent", accuracy: 97, rating: 4.7 },
+      { agent: "Support Agent", accuracy: 95, rating: 4.6 },
+    ],
+    categories: ["Task Agents", "Supervisor Agents", "Executive Agents", "Research Agents", "Customer Agents", "Security Agents"],
+  },
+  models: {
+    library: [
+      { model: "AGI Core", family: "LLM", latency: "20ms", accuracy: "96%", cost: "Medium", energy: "Balanced" },
+      { model: "Fast Model", family: "LLM", latency: "8ms", accuracy: "90%", cost: "Low", energy: "Low" },
+      { model: "Research Model", family: "Reasoning", latency: "80ms", accuracy: "99%", cost: "High", energy: "High" },
+      { model: "Vision Precision", family: "Vision", latency: "41ms", accuracy: "95%", cost: "Medium", energy: "Balanced" },
+    ],
+    benchmarks: [
+      { metric: "Latency", agiCore: 20, fastModel: 8, researchModel: 80 },
+      { metric: "Accuracy", agiCore: 96, fastModel: 90, researchModel: 99 },
+      { metric: "Cost", agiCore: 62, fastModel: 28, researchModel: 91 },
+    ],
+    abTests: [
+      { test: "Voice response pacing", variantA: "Default", variantB: "Expressive", winner: "Expressive", confidence: "94%" },
+      { test: "Task plan verbosity", variantA: "Compact", variantB: "Detailed", winner: "Detailed", confidence: "88%" },
+    ],
+  },
+  analytics: {
+    dataAnalysis: {
+      featureUsage: [
+        { label: "Chat assistant", value: 92 },
+        { label: "Task automation", value: 61 },
+        { label: "Agents marketplace", value: 34 },
+        { label: "Video calls", value: 42 },
+      ],
+      collection: ["User feedback", "Task success rate", "Agent interactions", "Feature usage", "Search queries"],
+    },
+    productFit: {
+      nps: 64,
+      growthRate: 18.4,
+      viralityCoefficient: 1.21,
+      userSatisfaction: 4.7,
+    },
+    userBehavior: {
+      dropOffPoints: [
+        { stage: "Signup", rate: 12 },
+        { stage: "API key generation", rate: 21 },
+        { stage: "First automation", rate: 16 },
+      ],
+      usageTimeByPlatform: [
+        { platform: "iOS", minutes: 18 },
+        { platform: "Android", minutes: 15 },
+        { platform: "Web", minutes: 22 },
+      ],
+    },
+  },
+  downloads: {
+    summary: {
+      totalDownloads: 460000,
+      activeInstalls: 281400,
+      dailyInstalls: 6200,
+      uninstallRate: 4.1,
+    },
+    geography: [
+      { country: "USA", installs: 120000, share: "26.1%" },
+      { country: "India", installs: 210000, share: "45.7%" },
+      { country: "Brazil", installs: 80000, share: "17.4%" },
+      { country: "UK", installs: 50000, share: "10.8%" },
+    ],
+    heatmap: [
+      { region: "North America", value: 92 },
+      { region: "Europe", value: 74 },
+      { region: "South America", value: 68 },
+      { region: "APAC", value: 96 },
+      { region: "Middle East", value: 49 },
+    ],
+  },
+  performance: {
+    apps: [
+      { surface: "iOS", crashRate: "0.18%", sessionLength: "19m", apiLatency: "142ms" },
+      { surface: "Android", crashRate: "0.24%", sessionLength: "16m", apiLatency: "151ms" },
+      { surface: "Web", crashRate: "0.04%", sessionLength: "23m", apiLatency: "119ms" },
+    ],
+    websites: [
+      { surface: "agi1.org", pageLoad: "1.4s", bounceRate: "21%", cdnStatus: "Healthy" },
+      { surface: "fairgroupai.com", pageLoad: "1.1s", bounceRate: "18%", cdnStatus: "Healthy" },
+    ],
+    infrastructure: {
+      apiResponseTime: "118ms",
+      errorRate: "0.09%",
+      serverUptime: "99.982%",
+      databaseLatency: "18ms",
+      networkLatency: "34ms",
+      gpuUtilization: "78%",
+    },
+  },
+  security: {
+    overview: {
+      blockedAttacks: 381,
+      suspiciousUsers: 12,
+      apiAbuseAttempts: 47,
+      credentialRisk: "Low",
+    },
+    alerts: [
+      { severity: "danger", title: "Credential stuffing blocked", detail: "12 IPs isolated by Aegis" },
+      { severity: "warning", title: "Developer token anomaly", detail: "Rate-limit escalation applied" },
+      { severity: "success", title: "Consent audit complete", detail: "No privacy policy drift detected" },
+    ],
+    controls: [
+      "Credential monitoring",
+      "API key protection",
+      "Anomaly detection",
+      "Suspicious login alerts",
+      "Encrypted audit trails",
+    ],
+  },
+  finance: {
+    overview: {
+      dailyRevenue: 428912,
+      monthlyRevenue: 10842880,
+      subscriptionConversionRate: 14.8,
+      lifetimeValue: 2480,
+      transactionVolume: 12281,
+    },
+    revenueMix: [
+      { label: "Subscriptions", value: 58 },
+      { label: "API usage", value: 23 },
+      { label: "Agent marketplace", value: 12 },
+      { label: "Enterprise services", value: 7 },
+    ],
+    subscriptions: [
+      { tier: "Free", accounts: 91220, growth: "+6.2%" },
+      { tier: "Premium", accounts: 62110, growth: "+8.9%" },
+      { tier: "Enterprise", accounts: 18344, growth: "+11.4%" },
+      { tier: "Developer", accounts: 12546, growth: "+5.7%" },
+    ],
+  },
+  system: {
+    settings: [
+      { domain: "Platform configuration", state: "Managed", notes: "Default policies versioned" },
+      { domain: "AI model settings", state: "Managed", notes: "Traffic split 62/25/13" },
+      { domain: "Agent deployment", state: "Auto", notes: "Supervisor pool auto-scales" },
+      { domain: "API rate limits", state: "Protected", notes: "Tiered quotas enabled" },
+      { domain: "Security rules", state: "Strict", notes: "Aegis signatures active" },
+    ],
+    infrastructure: [
+      { component: "API cluster", status: "Healthy", detail: "3 active nodes" },
+      { component: "Realtime media bridge", status: "Healthy", detail: "LiveKit regions synced" },
+      { component: "DynamoDB memory", status: "Healthy", detail: "Replication under SLA" },
+      { component: "Storage and artifacts", status: "Healthy", detail: "Retention policy active" },
+    ],
+    integrations: [
+      { integration: "LiveKit", status: "Connected", latency: "72ms", notes: "Voice and video bridge" },
+      { integration: "DynamoDB", status: "Connected", latency: "18ms", notes: "Shared memory layer" },
+      { integration: "S3", status: "Connected", latency: "24ms", notes: "Media and artifacts" },
+      { integration: "Payment gateway", status: "Monitor", latency: "94ms", notes: "Retry spike observed" },
+    ],
+  },
+  developer: {
+    apiKeys: [
+      { name: "Enterprise Partner Key", scope: "prod.readwrite", usage: "82%", status: "Active" },
+      { name: "Analytics Sandbox", scope: "sandbox.read", usage: "34%", status: "Active" },
+      { name: "Marketplace Worker", scope: "worker.execute", usage: "67%", status: "Rotating" },
+    ],
+    usage: [
+      { segment: "Enterprise", requests: 2218441, avgLatency: "124ms" },
+      { segment: "Developers", requests: 882140, avgLatency: "138ms" },
+      { segment: "Internal agents", requests: 741635, avgLatency: "91ms" },
+    ],
+    rateLimits: [
+      { plan: "Free", rpm: 120, burst: 30 },
+      { plan: "Premium", rpm: 600, burst: 120 },
+      { plan: "Enterprise", rpm: 4000, burst: 600 },
+      { plan: "Developer", rpm: 1200, burst: 180 },
+    ],
+  },
+};
+
 const state = {
   view: "command-center",
-  systemStatus: "Operational",
-  systemColor: "green",
-  liveUsers: 12842,
-  realtimeSessions: 324,
-  tasksToday: 41228,
-  revenueToday: 428912,
-  notifications: [
-    { title: "Jack response latency down 14%", detail: "Realtime optimization rolled out to US-East." },
-    { title: "Julia finance accuracy at 99.42%", detail: "Benchmark sweep completed 4 minutes ago." },
-    { title: "Singularity agent swarm scaling", detail: "Provisioned 120 new execution workers for Europe." },
-    { title: "Aegis blocked 17 high-risk prompts", detail: "No customer-facing regressions detected." },
-  ],
-};
-
-const analytics = {
-  topCountries: [
-    ["United States", 28112, "24.7%"],
-    ["United Kingdom", 12664, "11.1%"],
-    ["India", 10902, "9.6%"],
-    ["Canada", 8890, "7.8%"],
-    ["Germany", 6640, "5.8%"],
-    ["Brazil", 5933, "5.2%"],
-    ["Japan", 5142, "4.5%"],
-    ["France", 5036, "4.4%"],
-    ["Australia", 4420, "3.9%"],
-    ["UAE", 3812, "3.3%"],
-  ],
-  agents: [
-    ["Sales Agent", "ACTIVE", 914, "98.1%", "A", "99.4%"],
-    ["Customer Service Agent", "ACTIVE", 1463, "96.9%", "A", "98.7%"],
-    ["Research Agent", "ACTIVE", 728, "97.3%", "A", "97.9%"],
-    ["Booking Agent", "MONITOR", 488, "95.7%", "B+", "96.1%"],
-    ["Marketing Agent", "ACTIVE", 615, "96.4%", "A-", "97.2%"],
-    ["Finance Agent", "ACTIVE", 402, "99.1%", "A+", "99.6%"],
-  ],
-  avatars: [
-    {
-      name: "Jack",
-      role: "CEO Digital Human",
-      status: "Online",
-      tasks: 732,
-      conversations: 189,
-      csat: "97.8%",
-      rating: "A+",
-      accuracy: "99.2%",
-      latency: "178ms",
-    },
-    {
-      name: "Julia",
-      role: "CFO Digital Human",
-      status: "Online",
-      tasks: 689,
-      conversations: 204,
-      csat: "98.6%",
-      rating: "A+",
-      accuracy: "99.5%",
-      latency: "166ms",
-    },
-  ],
-};
-
-const realtimeSeries = {
-  usage: [42, 48, 44, 56, 61, 58, 67, 72, 69, 74, 79, 76],
-  gpu: [38, 44, 47, 53, 58, 62, 65, 71, 73, 75, 78, 82],
-  latency: [122, 118, 126, 132, 128, 119, 112, 109, 105, 98, 103, 96],
-  revenue: [96, 128, 164, 172, 188, 202, 214, 248, 261, 294, 318, 336],
-  funnel: [
-    { stage: "Site Visitors", value: "482k", width: 100 },
-    { stage: "Qualified Signups", value: "84k", width: 72 },
-    { stage: "Activated Users", value: "39k", width: 51 },
-    { stage: "Paid Subscribers", value: "12.8k", width: 28 },
-  ],
-};
-
-const sections = {
-  "command-center": {
-    title: "Command Center",
-    breadcrumb: "Dashboard / Command Center",
-    render: renderCommandCenter,
+  filterText: "",
+  snapshot: fallbackSnapshot,
+  api: {
+    base: resolveApiBase(),
+    mode: "seeded",
+    detail: "Using local seeded preview dataset",
+    lastSync: "Not synced",
   },
-  "system-health": {
-    title: "System Health",
-    breadcrumb: "Dashboard / System Health",
-    render: renderSystemHealth,
-  },
-  "user-analytics": {
-    title: "User Analytics & Growth Intelligence",
-    breadcrumb: "Users / User Analytics",
-    render: renderUserAnalytics,
-  },
-  "downloads-location": {
-    title: "Downloads by Location",
-    breadcrumb: "Users / Downloads by Location",
-    render: renderDownloadsLocation,
-  },
-  jack: {
-    title: "Digital Human Management / Jack",
-    breadcrumb: "Digital Humans / Jack",
-    render: () => renderAvatarManagement("Jack"),
-  },
-  julia: {
-    title: "Digital Human Management / Julia",
-    breadcrumb: "Digital Humans / Julia",
-    render: () => renderAvatarManagement("Julia"),
-  },
-  "avatar-settings": {
-    title: "Avatar Settings",
-    breadcrumb: "Digital Humans / Avatar Settings",
-    render: renderAvatarSettings,
-  },
-  "workforce-agents": {
-    title: "AGI Workforce Agent Manager",
-    breadcrumb: "Agents / Workforce Agents",
-    render: renderWorkforceAgents,
-  },
-  "task-automation": {
-    title: "Task Automation Monitoring",
-    breadcrumb: "Agents / Task Automation",
-    render: renderTaskAutomation,
-  },
-  "marketplace-agents": {
-    title: "Marketplace Automation",
-    breadcrumb: "Agents / Marketplace Agents",
-    render: renderMarketplaceAgents,
-  },
-  "customer-interactions": {
-    title: "Customer Interaction Monitor",
-    breadcrumb: "Operations / Customer Interactions",
-    render: renderCustomerInteractions,
-  },
-  "booking-systems": {
-    title: "Booking & Reservation Automation",
-    breadcrumb: "Operations / Booking Systems",
-    render: renderBookingSystems,
-  },
-  "performance-benchmarks": {
-    title: "AGI Performance Benchmark Center",
-    breadcrumb: "Analytics / Performance Benchmarks",
-    render: renderPerformanceBenchmarks,
-  },
-  "marketing-intelligence": {
-    title: "Digital Marketing Intelligence",
-    breadcrumb: "Analytics / Marketing Intelligence",
-    render: renderMarketingIntelligence,
-  },
-  "knowledge-brain": {
-    title: "AGI Knowledge Brain Center",
-    breadcrumb: "Analytics / Knowledge Brain Center",
-    render: renderKnowledgeBrain,
-  },
-  "revenue-dashboard": {
-    title: "Revenue & Business Intelligence",
-    breadcrumb: "Finance / Revenue Dashboard",
-    render: renderRevenueDashboard,
-  },
-  "app-monitoring": {
-    title: "App & Website Performance Monitoring",
-    breadcrumb: "Infrastructure / App Monitoring",
-    render: renderAppMonitoring,
-  },
-  "server-monitoring": {
-    title: "Server Monitoring",
-    breadcrumb: "Infrastructure / Server Monitoring",
-    render: renderServerMonitoring,
-  },
-  "team-access": {
-    title: "Admin Team Management",
-    breadcrumb: "Management / Team Access",
-    render: renderTeamAccess,
-  },
-  permissions: {
-    title: "Permissions",
-    breadcrumb: "Management / Permissions",
-    render: renderPermissions,
-  },
-  "agi-system-settings": {
-    title: "AGI System Control & Settings",
-    breadcrumb: "Settings / AGI System Settings",
-    render: renderSystemSettings,
-  },
-  integrations: {
-    title: "Integrations",
-    breadcrumb: "Settings / Integrations",
-    render: renderIntegrations,
-  },
+  syncBusy: false,
 };
 
 const sidebarNav = document.querySelector("#sidebar-nav");
@@ -271,6 +458,194 @@ const heroTasks = document.querySelector("#hero-tasks");
 const heroRevenue = document.querySelector("#hero-revenue");
 const systemIndicator = document.querySelector("#system-indicator");
 const systemLabel = document.querySelector("#system-label");
+const apiConnectionLabel = document.querySelector("#api-connection-label");
+const apiConnectionDetail = document.querySelector("#api-connection-detail");
+const syncButton = document.querySelector("#sync-button");
+
+const sections = {
+  "command-center": {
+    title: "Command Center",
+    breadcrumb: "Dashboard / Command Center",
+    render: renderCommandCenter,
+  },
+  "system-health": {
+    title: "System Health",
+    breadcrumb: "Dashboard / System Health",
+    render: renderSystemHealth,
+  },
+  "user-accounts": {
+    title: "User Accounts",
+    breadcrumb: "Users / User Accounts",
+    render: renderUserAccounts,
+  },
+  "user-activity": {
+    title: "User Activity",
+    breadcrumb: "Users / Activity",
+    render: renderUserActivity,
+  },
+  "user-retention": {
+    title: "User Retention",
+    breadcrumb: "Users / Retention",
+    render: renderUserRetention,
+  },
+  "team-roles": {
+    title: "Team Roles",
+    breadcrumb: "Team / Roles",
+    render: renderTeamRoles,
+  },
+  "team-permissions": {
+    title: "Team Permissions",
+    breadcrumb: "Team / Permissions",
+    render: renderTeamPermissions,
+  },
+  "team-access-logs": {
+    title: "Team Access Logs",
+    breadcrumb: "Team / Access Logs",
+    render: renderTeamAccessLogs,
+  },
+  jack: {
+    title: "Jack Control",
+    breadcrumb: "Digital Humans / Jack",
+    render: () => renderAvatarManagement("Jack"),
+  },
+  julia: {
+    title: "Julia Control",
+    breadcrumb: "Digital Humans / Julia",
+    render: () => renderAvatarManagement("Julia"),
+  },
+  "avatar-settings": {
+    title: "Avatar Settings",
+    breadcrumb: "Digital Humans / Avatar Settings",
+    render: renderAvatarSettings,
+  },
+  "agent-list": {
+    title: "Agent List",
+    breadcrumb: "Agents / Agent List",
+    render: renderAgentList,
+  },
+  "agent-performance": {
+    title: "Agent Performance",
+    breadcrumb: "Agents / Performance",
+    render: renderAgentPerformance,
+  },
+  "agent-rankings": {
+    title: "Agent Rankings",
+    breadcrumb: "Agents / Rankings",
+    render: renderAgentRankings,
+  },
+  "model-library": {
+    title: "Model Library",
+    breadcrumb: "Models / Model Library",
+    render: renderModelLibrary,
+  },
+  "model-benchmarks": {
+    title: "Model Benchmarks",
+    breadcrumb: "Models / Benchmarks",
+    render: renderModelBenchmarks,
+  },
+  "model-ab-testing": {
+    title: "Model A/B Testing",
+    breadcrumb: "Models / A/B Testing",
+    render: renderModelABTesting,
+  },
+  "data-analysis": {
+    title: "Data Analysis",
+    breadcrumb: "Analytics / Data Analysis",
+    render: renderDataAnalysis,
+  },
+  "product-market-fit": {
+    title: "Product Market Fit",
+    breadcrumb: "Analytics / Product Market Fit",
+    render: renderProductMarketFit,
+  },
+  "user-behavior": {
+    title: "User Behavior",
+    breadcrumb: "Analytics / User Behavior",
+    render: renderUserBehavior,
+  },
+  "install-analytics": {
+    title: "Install Analytics",
+    breadcrumb: "Downloads / Install Analytics",
+    render: renderInstallAnalytics,
+  },
+  "geographic-data": {
+    title: "Geographic Data",
+    breadcrumb: "Downloads / Geographic Data",
+    render: renderGeographicData,
+  },
+  "app-monitor": {
+    title: "App Monitor",
+    breadcrumb: "Performance / App Monitor",
+    render: renderAppMonitor,
+  },
+  "website-monitor": {
+    title: "Website Monitor",
+    breadcrumb: "Performance / Website Monitor",
+    render: renderWebsiteMonitor,
+  },
+  "threat-detection": {
+    title: "Threat Detection",
+    breadcrumb: "Security / Threat Detection",
+    render: renderThreatDetection,
+  },
+  "token-protection": {
+    title: "Token Protection",
+    breadcrumb: "Security / Token Protection",
+    render: renderTokenProtection,
+  },
+  revenue: {
+    title: "Revenue",
+    breadcrumb: "Finance / Revenue",
+    render: renderRevenue,
+  },
+  subscriptions: {
+    title: "Subscriptions",
+    breadcrumb: "Finance / Subscriptions",
+    render: renderSubscriptions,
+  },
+  "system-settings": {
+    title: "System Settings",
+    breadcrumb: "System / Settings",
+    render: renderSystemSettings,
+  },
+  "system-infrastructure": {
+    title: "System Infrastructure",
+    breadcrumb: "System / Infrastructure",
+    render: renderSystemInfrastructure,
+  },
+  "system-integrations": {
+    title: "System Integrations",
+    breadcrumb: "System / Integrations",
+    render: renderSystemIntegrations,
+  },
+  "developer-api-keys": {
+    title: "Developer API Keys",
+    breadcrumb: "Developer / API Keys",
+    render: renderDeveloperApiKeys,
+  },
+  "developer-usage": {
+    title: "Developer API Usage",
+    breadcrumb: "Developer / API Usage",
+    render: renderDeveloperUsage,
+  },
+};
+
+function resolveApiBase() {
+  if (window.__AGI1_ADMIN_CONFIG__?.apiBase) {
+    return window.__AGI1_ADMIN_CONFIG__.apiBase;
+  }
+
+  const stored = window.localStorage.getItem("agi1-admin-api-base");
+  if (stored) {
+    return stored;
+  }
+
+  if (window.location.protocol.startsWith("http")) {
+    return `${window.location.origin}/api/v1`;
+  }
+
+  return "http://127.0.0.1:8000/api/v1";
+}
 
 function formatNumber(value) {
   return new Intl.NumberFormat("en-US").format(value);
@@ -284,8 +659,28 @@ function formatCurrency(value) {
   }).format(value);
 }
 
+function toneToPill(tone) {
+  if (tone === "green" || tone === "success" || tone === "healthy" || tone === "connected") {
+    return "success";
+  }
+  if (tone === "danger" || tone === "red" || tone === "critical" || tone === "suspended") {
+    return "danger";
+  }
+  return "warning";
+}
+
+function toneToDot(tone) {
+  if (tone === "green" || tone === "success" || tone === "healthy" || tone === "connected") {
+    return "status-green";
+  }
+  if (tone === "danger" || tone === "red" || tone === "critical") {
+    return "status-red";
+  }
+  return "status-orange";
+}
+
 function statusPill(label, tone = "success") {
-  return `<span class="status-pill ${tone}">${label}</span>`;
+  return `<span class="status-pill ${toneToPill(String(tone).toLowerCase())}">${label}</span>`;
 }
 
 function metricCard({ label, value, trend, caption }) {
@@ -293,7 +688,7 @@ function metricCard({ label, value, trend, caption }) {
     <article class="metric-card panel">
       <div class="metric-header">
         <span class="metric-label">${label}</span>
-        <span class="metric-trend">${trend}</span>
+        <span class="metric-trend">${trend || ""}</span>
       </div>
       <strong class="metric-value">${value}</strong>
       <p class="metric-caption muted">${caption}</p>
@@ -301,95 +696,12 @@ function metricCard({ label, value, trend, caption }) {
   `;
 }
 
-function pointsToPolyline(points, height = 180, width = 640) {
-  const max = Math.max(...points);
-  const min = Math.min(...points);
-  return points
-    .map((point, index) => {
-      const x = (index / (points.length - 1)) * width;
-      const y = height - ((point - min) / Math.max(1, max - min)) * (height - 24) - 12;
-      return `${x},${y}`;
-    })
-    .join(" ");
-}
-
-function lineChart(title, series, { primary = "#72f5ff", secondary = "#ff8d3f", unit = "" } = {}) {
-  const labels = ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22"];
+function screenIntro(title, description) {
   return `
-    <article class="chart-card panel">
-      <div class="card-header">
-        <div>
-          <p class="eyebrow">Live chart</p>
-          <h3 class="section-title">${title}</h3>
-        </div>
-        <div class="chart-legend">
-          <span class="legend-chip" style="color:${primary}">Primary</span>
-          ${
-            series.secondary
-              ? `<span class="legend-chip" style="color:${secondary}">Secondary</span>`
-              : ""
-          }
-        </div>
-      </div>
-      <svg viewBox="0 0 640 220" class="chart-svg" role="img" aria-label="${title}">
-        <defs>
-          <linearGradient id="fill-${title.replace(/\s+/g, "-")}" x1="0%" x2="0%" y1="0%" y2="100%">
-            <stop offset="0%" stop-color="${primary}" stop-opacity="0.28"></stop>
-            <stop offset="100%" stop-color="${primary}" stop-opacity="0.02"></stop>
-          </linearGradient>
-        </defs>
-        ${labels
-          .map(
-            (_, index) =>
-              `<line x1="${(index / 11) * 640}" y1="0" x2="${(index / 11) * 640}" y2="220" stroke="rgba(255,255,255,0.04)" />`
-          )
-          .join("")}
-        <polyline points="${pointsToPolyline(series.primary)}" fill="none" stroke="${primary}" stroke-width="4" />
-        ${
-          series.secondary
-            ? `<polyline points="${pointsToPolyline(series.secondary)}" fill="none" stroke="${secondary}" stroke-width="3" stroke-dasharray="10 8" />`
-            : ""
-        }
-        <g>
-          ${labels
-            .map(
-              (label, index) =>
-                `<text x="${(index / 11) * 640}" y="214" class="axis-text">${label}${unit}</text>`
-            )
-            .join("")}
-        </g>
-      </svg>
-    </article>
-  `;
-}
-
-function barsChart(title, entries, color = "#72f5ff") {
-  const max = Math.max(...entries.map((entry) => entry.value));
-  return `
-    <article class="chart-card panel">
-      <div class="card-header">
-        <div>
-          <p class="eyebrow">Breakdown</p>
-          <h3 class="section-title">${title}</h3>
-        </div>
-      </div>
-      <div class="stack">
-        ${entries
-          .map(
-            (entry) => `
-              <div>
-                <div class="card-header">
-                  <strong>${entry.label}</strong>
-                  <span class="muted">${entry.display}</span>
-                </div>
-                <div style="height:10px;border-radius:999px;background:rgba(255,255,255,0.06);overflow:hidden;">
-                  <div style="width:${(entry.value / max) * 100}%;height:100%;border-radius:999px;background:linear-gradient(90deg, ${color}, #ff8d3f);"></div>
-                </div>
-              </div>
-            `
-          )
-          .join("")}
-      </div>
+    <article class="section-card panel">
+      <p class="eyebrow">AGI-1 Admin Surface</p>
+      <h3 class="section-title">${title}</h3>
+      <p class="section-description">${description}</p>
     </article>
   `;
 }
@@ -410,13 +722,7 @@ function tableCard(title, headers, rows) {
           </thead>
           <tbody>
             ${rows
-              .map(
-                (row) => `
-                  <tr>
-                    ${row.map((cell) => `<td>${cell}</td>`).join("")}
-                  </tr>
-                `
-              )
+              .map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`)
               .join("")}
           </tbody>
         </table>
@@ -425,7 +731,248 @@ function tableCard(title, headers, rows) {
   `;
 }
 
-function notificationFeed() {
+function listCard(title, eyebrow, items) {
+  return `
+    <article class="recommendation-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">${eyebrow}</p>
+          <h3 class="section-title">${title}</h3>
+        </div>
+      </div>
+      <ul class="recommendation-list">
+        ${items
+          .map(
+            (item) => `
+              <li>
+                <strong>${item.title}</strong>
+                <span class="muted">${item.detail}</span>
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+    </article>
+  `;
+}
+
+function bulletCard(title, eyebrow, bullets) {
+  return `
+    <article class="control-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">${eyebrow}</p>
+          <h3 class="section-title">${title}</h3>
+        </div>
+      </div>
+      <ul class="control-list">
+        ${bullets.map((bullet) => `<li><span>${bullet}</span></li>`).join("")}
+      </ul>
+    </article>
+  `;
+}
+
+function keyValueCard(title, eyebrow, entries) {
+  return `
+    <article class="control-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">${eyebrow}</p>
+          <h3 class="section-title">${title}</h3>
+        </div>
+      </div>
+      <ul class="control-list">
+        ${entries
+          .map(
+            (entry) => `
+              <li>
+                <span>${entry.label}</span>
+                <strong>${entry.value}</strong>
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+    </article>
+  `;
+}
+
+function pointsToPolyline(points, height = 180, width = 640) {
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+
+  return points
+    .map((point, index) => {
+      const x = (index / Math.max(points.length - 1, 1)) * width;
+      const y = height - ((point - min) / Math.max(max - min, 1)) * (height - 24) - 12;
+      return `${x},${y}`;
+    })
+    .join(" ");
+}
+
+function lineChart(title, primary, secondary = null, primaryColor = "#72f5ff", secondaryColor = "#ff8d3f") {
+  const labels = ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22"];
+
+  return `
+    <article class="chart-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Realtime chart</p>
+          <h3 class="section-title">${title}</h3>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-chip" style="color:${primaryColor}">Primary</span>
+          ${secondary ? `<span class="legend-chip" style="color:${secondaryColor}">Secondary</span>` : ""}
+        </div>
+      </div>
+      <svg viewBox="0 0 640 220" class="chart-svg" role="img" aria-label="${title}">
+        ${labels
+          .map(
+            (_, index) =>
+              `<line x1="${(index / 11) * 640}" y1="0" x2="${(index / 11) * 640}" y2="220" stroke="rgba(255,255,255,0.04)" />`
+          )
+          .join("")}
+        <polyline points="${pointsToPolyline(primary)}" fill="none" stroke="${primaryColor}" stroke-width="4" />
+        ${secondary ? `<polyline points="${pointsToPolyline(secondary)}" fill="none" stroke="${secondaryColor}" stroke-width="3" stroke-dasharray="10 8" />` : ""}
+        ${labels
+          .map((label, index) => `<text x="${(index / 11) * 640}" y="214" class="axis-text">${label}</text>`)
+          .join("")}
+      </svg>
+    </article>
+  `;
+}
+
+function barsChart(title, entries, eyebrow = "Breakdown") {
+  const max = Math.max(...entries.map((entry) => entry.value), 1);
+
+  return `
+    <article class="chart-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">${eyebrow}</p>
+          <h3 class="section-title">${title}</h3>
+        </div>
+      </div>
+      <div class="stack">
+        ${entries
+          .map(
+            (entry) => `
+              <div>
+                <div class="card-header">
+                  <strong>${entry.label}</strong>
+                  <span class="muted">${entry.display || entry.value}</span>
+                </div>
+                <div style="height:10px;border-radius:999px;background:rgba(255,255,255,0.06);overflow:hidden;">
+                  <div style="width:${(entry.value / max) * 100}%;height:100%;border-radius:999px;background:linear-gradient(90deg, #72f5ff, #ff8d3f);"></div>
+                </div>
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    </article>
+  `;
+}
+
+function heatmapCard(matrix) {
+  const max = Math.max(...matrix.flat(), 1);
+
+  return `
+    <article class="heatmap-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Engagement map</p>
+          <h3 class="section-title">User engagement heat map</h3>
+        </div>
+      </div>
+      <div class="heatmap-grid">
+        ${matrix
+          .flat()
+          .map((value) => {
+            const alpha = 0.12 + (value / max) * 0.88;
+            return `<div class="heat-cell" style="background:rgba(114,245,255,${alpha.toFixed(2)})"></div>`;
+          })
+          .join("")}
+      </div>
+    </article>
+  `;
+}
+
+function worldMapCard(downloads) {
+  return `
+    <article class="world-map-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Global footprint</p>
+          <h3 class="section-title">Live users and installs by region</h3>
+        </div>
+        ${statusPill("Realtime", "success")}
+      </div>
+      <div class="world-map">
+        <div class="world-region region-us"></div>
+        <div class="world-region region-eu"></div>
+        <div class="world-region region-af"></div>
+        <div class="world-region region-apac"></div>
+        <div class="world-region region-sa"></div>
+        <span class="pulse" style="top:31%;left:22%"></span>
+        <span class="pulse" style="top:26%;left:47%"></span>
+        <span class="pulse" style="top:32%;left:74%"></span>
+      </div>
+      <div class="stack">
+        ${downloads.geography
+          .slice(0, 4)
+          .map(
+            (entry) => `
+              <div class="card-header">
+                <strong>${entry.country}</strong>
+                <span class="muted">${formatNumber(entry.installs)} installs · ${entry.share}</span>
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    </article>
+  `;
+}
+
+function avatarActivityCard(avatars) {
+  return `
+    <article class="avatar-card panel">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Digital humans</p>
+          <h3 class="section-title">Jack and Julia activity</h3>
+        </div>
+      </div>
+      <div class="avatar-grid">
+        ${avatars
+          .map(
+            (avatar) => `
+              <div class="avatar-tile">
+                <div class="avatar-profile">
+                  <div class="avatar-face">${avatar.name.slice(0, 1)}</div>
+                  <div>
+                    <strong>${avatar.name}</strong>
+                    <p class="muted small">${avatar.role}</p>
+                    ${statusPill(avatar.status, avatar.status.toLowerCase() === "online" ? "success" : "warning")}
+                  </div>
+                </div>
+                <div class="avatar-stats">
+                  <div><span class="muted small">Tasks</span><strong>${formatNumber(avatar.tasksHandled)}</strong></div>
+                  <div><span class="muted small">Conversations</span><strong>${formatNumber(avatar.conversationsToday)}</strong></div>
+                  <div><span class="muted small">Accuracy</span><strong>${avatar.accuracy}%</strong></div>
+                  <div><span class="muted small">Latency</span><strong>${avatar.latencyMs}ms</strong></div>
+                </div>
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    </article>
+  `;
+}
+
+function notificationFeed(items) {
   return `
     <article class="feed-card panel">
       <div class="card-header">
@@ -433,10 +980,9 @@ function notificationFeed() {
           <p class="eyebrow">Live feed</p>
           <h3 class="section-title">Notifications</h3>
         </div>
-        ${statusPill("4 alerts", "warning")}
       </div>
       <ul class="notification-feed">
-        ${state.notifications
+        ${items
           .map(
             (item) => `
               <li class="notification-item">
@@ -451,833 +997,726 @@ function notificationFeed() {
   `;
 }
 
-function aiRecommendationsCard() {
+function accessLogFeed(logs) {
   return `
-    <article class="recommendation-card panel">
+    <article class="timeline-card panel">
       <div class="card-header">
         <div>
-          <p class="eyebrow">AI recommendations</p>
-          <h3 class="section-title">Next best actions</h3>
+          <p class="eyebrow">Audit trail</p>
+          <h3 class="section-title">Latest access events</h3>
         </div>
       </div>
-      <ul class="recommendation-list">
-        <li><strong>Shift 12% more GPU budget to Julia</strong><span class="muted">Finance traffic in London is surging and Julia outperforms Jack by 6.2% on economic reasoning.</span></li>
-        <li><strong>Spin up 24 booking agents in APAC</strong><span class="muted">Reservation queue depth crossed the 80th percentile in Singapore, Tokyo, and Sydney.</span></li>
-        <li><strong>Promote healthcare outfit preset</strong><span class="muted">Medical conversations have the highest retention uplift when doctor-context presentation is auto-applied.</span></li>
+      <ul class="notification-feed">
+        ${logs
+          .map(
+            (log) => `
+              <li class="notification-item">
+                <strong>${log.actor}</strong>
+                <span class="muted">${log.event}</span>
+                <span class="muted small">${log.time}</span>
+              </li>
+            `
+          )
+          .join("")}
       </ul>
     </article>
   `;
 }
 
-function worldMapCard() {
+function journeyCard(steps) {
   return `
-    <article class="world-map-card panel">
+    <article class="control-card panel">
       <div class="card-header">
         <div>
-          <p class="eyebrow">Global presence</p>
-          <h3 class="section-title">Live users by region</h3>
+          <p class="eyebrow">Journey map</p>
+          <h3 class="section-title">User flow</h3>
         </div>
-        <span class="muted">${formatNumber(state.liveUsers)} concurrent users</span>
       </div>
-      <div class="world-map">
-        <span class="world-region region-us"></span>
-        <span class="world-region region-eu"></span>
-        <span class="world-region region-af"></span>
-        <span class="world-region region-apac"></span>
-        <span class="world-region region-sa"></span>
-        <span class="pulse" style="top:31%;left:21%;"></span>
-        <span class="pulse" style="top:27%;left:46%;"></span>
-        <span class="pulse" style="top:43%;left:50%;"></span>
-        <span class="pulse" style="top:35%;left:72%;"></span>
-        <span class="pulse" style="top:63%;left:31%;"></span>
-      </div>
+      <ul class="stats-strip">
+        ${steps.map((step, index) => `<li><span>${index + 1}. ${step}</span></li>`).join("")}
+      </ul>
     </article>
   `;
 }
 
-function avatarActivityCard() {
-  return `
-    <article class="avatar-card panel">
-      <div class="card-header">
-        <div>
-          <p class="eyebrow">Digital human activity</p>
-          <h3 class="section-title">Jack and Julia online</h3>
-        </div>
-      </div>
-      <div class="avatar-grid">
-        ${analytics.avatars
-          .map(
-            (avatar) => `
-              <div class="avatar-tile">
-                <div class="avatar-profile">
-                  <div class="avatar-face">${avatar.name.charAt(0)}</div>
-                  <div>
-                    <strong>${avatar.name}</strong>
-                    <p class="muted">${avatar.role}</p>
-                    ${statusPill(avatar.status, "success")}
-                  </div>
-                </div>
-                <div class="avatar-stats">
-                  <div><span class="muted">Conversations</span><strong>${avatar.conversations}</strong></div>
-                  <div><span class="muted">Latency</span><strong>${avatar.latency}</strong></div>
-                  <div><span class="muted">Accuracy</span><strong>${avatar.accuracy}</strong></div>
-                  <div><span class="muted">CSAT</span><strong>${avatar.csat}</strong></div>
-                </div>
-              </div>
-            `
-          )
-          .join("")}
-      </div>
-    </article>
-  `;
-}
-
-function heatmapCard(title) {
-  const cells = Array.from({ length: 50 }, (_, index) => {
-    const intensity = ((index * 13) % 10) / 10;
-    const color = `rgba(114,245,255,${0.1 + intensity * 0.7})`;
-    return `<div class="heat-cell" style="background:${color}"></div>`;
-  });
-
-  return `
-    <article class="heatmap-card panel">
-      <div class="card-header">
-        <div>
-          <p class="eyebrow">Behavior heat map</p>
-          <h3 class="section-title">${title}</h3>
-        </div>
-      </div>
-      <div class="heatmap-grid">${cells.join("")}</div>
-    </article>
-  `;
-}
-
-function networkCard() {
-  return `
-    <article class="network-card panel">
-      <div class="card-header">
-        <div>
-          <p class="eyebrow">Agent communication</p>
-          <h3 class="section-title">AGI workforce network</h3>
-        </div>
-      </div>
-      <div class="network-view">
-        <div class="network-node" style="top:18%;left:44%;">Singularity</div>
-        <div class="network-node" style="top:8%;left:20%;">Jack</div>
-        <div class="network-node" style="top:8%;left:66%;">Julia</div>
-        <div class="network-node" style="top:34%;left:12%;">Sales</div>
-        <div class="network-node" style="top:34%;left:70%;">Support</div>
-        <div class="network-node" style="top:58%;left:22%;">Research</div>
-        <div class="network-node" style="top:58%;left:58%;">Finance</div>
-        <div class="network-node" style="top:76%;left:41%;">Aegis</div>
-        <span class="network-line" style="top:16%;left:26%;width:112px;transform:rotate(13deg);"></span>
-        <span class="network-line" style="top:16%;left:54%;width:110px;transform:rotate(-12deg);"></span>
-        <span class="network-line" style="top:34%;left:22%;width:132px;transform:rotate(-13deg);"></span>
-        <span class="network-line" style="top:37%;left:54%;width:130px;transform:rotate(12deg);"></span>
-        <span class="network-line" style="top:62%;left:32%;width:122px;transform:rotate(14deg);"></span>
-        <span class="network-line" style="top:62%;left:49%;width:104px;transform:rotate(-16deg);"></span>
-      </div>
-    </article>
-  `;
-}
-
-function renderScreenIntro(title, description) {
-  return `
-    <article class="section-card panel">
-      <p class="eyebrow">AGI-1 admin surface</p>
-      <h3 class="section-title">${title}</h3>
-      <p class="section-description">${description}</p>
-    </article>
-  `;
+function getSnapshot() {
+  return state.snapshot;
 }
 
 function renderCommandCenter() {
-  return `
-    <section class="dashboard-grid">
-      <div class="span-12 metric-grid">
-        ${metricCard({
-          label: "AGI System Status",
-          value: "Operational",
-          trend: "99.982% uptime",
-          caption: "Aegis, Singularity, Jack, and Julia are currently synchronized.",
-        })}
-        ${metricCard({
-          label: "Realtime Active Users",
-          value: formatNumber(state.liveUsers),
-          trend: "+12.4%",
-          caption: "Trailing 15-minute concurrent load.",
-        })}
-        ${metricCard({
-          label: "Agents Working",
-          value: "1,024",
-          trend: "876 autonomous",
-          caption: "Sales, research, booking, support, finance, and marketing agents online.",
-        })}
-        ${metricCard({
-          label: "Revenue Today",
-          value: formatCurrency(state.revenueToday),
-          trend: "+18.1%",
-          caption: "Subscriptions, enterprise seats, and task-execution monetization.",
-        })}
-      </div>
+  const data = getSnapshot();
+  const metrics = data.dashboard.metrics;
 
-      <div class="span-8">${lineChart("CPU / GPU utilization", { primary: realtimeSeries.usage, secondary: realtimeSeries.gpu })}</div>
-      <div class="span-4">${notificationFeed()}</div>
-      <div class="span-7">${worldMapCard()}</div>
-      <div class="span-5">${avatarActivityCard()}</div>
-      <div class="span-8">${networkCard()}</div>
-      <div class="span-4">${aiRecommendationsCard()}</div>
-    </section>
+  return `
+    <div class="dashboard-grid">
+      <div class="span-12">
+        ${screenIntro(
+          "AGI-1 Control Tower",
+          "Central operating system dashboard for Fair Group AI. This surface controls users, AI agents, models, infrastructure, security, analytics, performance, growth, and monetization from a single futuristic command center."
+        )}
+      </div>
+      <div class="span-12 metric-grid">
+        ${metricCard({ label: "Active Users", value: formatNumber(metrics.activeUsers), trend: "+12.4%", caption: "Live connected operators and customers" })}
+        ${metricCard({ label: "Active Agents", value: formatNumber(metrics.activeAgents), trend: "1,000+ network", caption: "Task, supervisor, executive, research, customer, security" })}
+        ${metricCard({ label: "Tasks Today", value: formatNumber(metrics.tasksToday), trend: "+8.7%", caption: "Completed autonomous and guided work" })}
+        ${metricCard({ label: "Revenue Today", value: formatCurrency(metrics.revenueToday), trend: "+14.1%", caption: "Subscriptions, APIs, marketplace, enterprise" })}
+      </div>
+      <div class="span-8">${lineChart("Tasks per minute vs model inference load", data.dashboard.charts.tasksPerMinute, data.dashboard.charts.inferenceLoad)}</div>
+      <div class="span-4">${notificationFeed(data.dashboard.notifications)}</div>
+      <div class="span-7">${worldMapCard(data.downloads)}</div>
+      <div class="span-5">${avatarActivityCard(data.digitalHumans.avatars)}</div>
+      <div class="span-6">${barsChart("Real-time security and growth signals", [
+        { label: "API requests", value: 82, display: formatNumber(metrics.apiRequests) },
+        { label: "Token usage", value: 68, display: metrics.tokenUsage },
+        { label: "Security alerts", value: metrics.securityAlerts, display: String(metrics.securityAlerts) },
+        { label: "Uptime hours", value: metrics.systemUptimeHours, display: String(metrics.systemUptimeHours) },
+      ], "Platform signals")}</div>
+      <div class="span-6">${listCard("AI recommendations", "Operator guidance", data.dashboard.recommendations)}</div>
+      <div class="span-12">${tableCard("System alerts", ["Severity", "Title", "Detail"], data.dashboard.alerts.map((alert) => [statusPill(alert.severity, alert.severity), alert.title, alert.detail]))}</div>
+    </div>
   `;
 }
 
 function renderSystemHealth() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Realtime infrastructure diagnostics",
-        "Track uptime, API latency, error budgets, model routing stability, and GPU pressure across the sovereign AGI runtime."
-      )}
-      <div class="panel-grid">
-        ${lineChart("API latency and response speed", {
-          primary: realtimeSeries.latency,
-          secondary: realtimeSeries.usage,
-        }, { primary: "#72f5ff", secondary: "#ff8d3f", unit: "m" })}
-        ${barsChart("Failure pressure by subsystem", [
-          { label: "API gateway", value: 12, display: "0.02% error rate" },
-          { label: "Realtime transport", value: 28, display: "0.08% reconnects" },
-          { label: "Task execution", value: 19, display: "0.04% retries" },
-          { label: "Billing hooks", value: 7, display: "0.01% alerts" },
-        ], "#ff8d3f")}
-      </div>
-      ${tableCard("Infrastructure signals", ["Subsystem", "Status", "Latency", "Notes"], [
-        ["API Gateway", statusPill("Healthy"), "96ms", "TLS, rate limiting, and gzip enabled"],
-        ["LiveKit Realtime", statusPill("Connected"), "178ms", "Dispatch + room join validated"],
-        ["Task Runtime", statusPill("Healthy"), "142ms", "1,024 agents available"],
-        ["DynamoDB Memory", statusPill("Ready"), "34ms", "Production table reachable"],
-        ["Watchdog", statusPill("Enabled"), "90s recovery", "Service self-healing active"],
-      ])}
-    </div>
-  `;
-}
+  const data = getSnapshot();
+  const infra = data.performance.infrastructure;
 
-function renderUserAnalytics() {
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "User analytics and growth intelligence",
-        "Monitor total users, DAU, MAU, retention, churn, heat maps, session depth, and conversion funnels across mobile and web."
+    <div class="view-content">
+      ${screenIntro(
+        "Global System Health",
+        "Realtime overview of AGI compute, API health, model inference load, GPU utilization, database latency, network performance, and Aegis-protected system alerts."
       )}
       <div class="metric-grid">
-        ${metricCard({ label: "Total Users", value: "238,420", trend: "+21.6%", caption: "Cross-platform installed users." })}
-        ${metricCard({ label: "Daily Active Users", value: "84,192", trend: "+9.1%", caption: "Daily actives across app and web." })}
-        ${metricCard({ label: "Monthly Active Users", value: "192,044", trend: "+14.2%", caption: "MAU consolidated from all surfaces." })}
-        ${metricCard({ label: "Retention", value: "78.4%", trend: "-1.2% churn", caption: "Thirty-day retained power users." })}
-      </div>
-      <div class="split-layout">
-        ${lineChart("Usage time by hour", { primary: [24, 28, 22, 25, 34, 46, 59, 72, 82, 88, 91, 84] })}
-        <article class="section-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Conversion funnel</p>
-              <h3 class="section-title">Visitor to paid user</h3>
-            </div>
-          </div>
-          <div class="funnel">
-            ${realtimeSeries.funnel
-              .map(
-                (step) => `
-                  <div class="funnel-stage" style="width:${step.width}%;">
-                    <strong>${step.stage}</strong>
-                    <span class="muted">${step.value}</span>
-                  </div>
-                `
-              )
-              .join("")}
-          </div>
-        </article>
+        ${metricCard({ label: "Server Uptime", value: infra.serverUptime, trend: "Stable", caption: "Public API and orchestration runtime" })}
+        ${metricCard({ label: "API Response", value: infra.apiResponseTime, trend: "-6ms", caption: "Median command center route latency" })}
+        ${metricCard({ label: "DB Latency", value: infra.databaseLatency, trend: "Healthy", caption: "Memory, state, audit writes" })}
+        ${metricCard({ label: "GPU Utilization", value: infra.gpuUtilization, trend: "+3%", caption: "Realtime voice, inference, and orchestration" })}
       </div>
       <div class="panel-grid">
-        ${heatmapCard("Engagement heat map")}
-        ${tableCard("Top 10 countries using AGI-1", ["Country", "Users", "Share"], analytics.topCountries)}
+        ${lineChart("GPU vs memory consumption", data.dashboard.charts.gpuUsage, data.dashboard.charts.memoryConsumption)}
+        ${listCard("Aegis alert queue", "Security", data.security.alerts.map((alert) => ({ title: alert.title, detail: alert.detail })))}
+      </div>
+      ${tableCard("Infrastructure signals", ["Component", "Status", "Detail"], data.system.infrastructure.map((item) => [
+        item.component,
+        statusPill(item.status, item.status.toLowerCase()),
+        item.detail,
+      ]))}
+    </div>
+  `;
+}
+
+function renderUserAccounts() {
+  const data = getSnapshot();
+  const summary = data.users.summary;
+
+  return `
+    <div class="view-content">
+      ${screenIntro("User management", "Manage user profiles, account types, lifecycle status, and global account distribution across the AGI-1 platform.")}
+      <div class="metric-grid">
+        ${metricCard({ label: "Total Users", value: formatNumber(summary.totalUsers), trend: "+9.8%", caption: "All registered AGI-1 accounts" })}
+        ${metricCard({ label: "DAU", value: formatNumber(summary.dailyActiveUsers), trend: "+7.2%", caption: "Daily active users" })}
+        ${metricCard({ label: "MAU", value: formatNumber(summary.monthlyActiveUsers), trend: "+10.5%", caption: "Monthly active users" })}
+        ${metricCard({ label: "Engagement Score", value: `${summary.engagementScore}/100`, trend: "High", caption: "Composite retention and usage score" })}
+      </div>
+      ${tableCard("User accounts", ["Name", "Email", "Phone", "Location", "Account type", "Status"], data.users.accounts.map((account) => [
+        account.name,
+        account.email,
+        account.phone,
+        account.location,
+        account.type,
+        statusPill(account.status, account.status.toLowerCase()),
+      ]))}
+    </div>
+  `;
+}
+
+function renderUserActivity() {
+  const data = getSnapshot();
+
+  return `
+    <div class="view-content">
+      ${screenIntro("User activity", "Observe task requests, agent usage, token consumption, and session histories for high-value operators and enterprise accounts.")}
+      <div class="panel-grid">
+        ${barsChart("Feature usage", data.users.behavior.featureUsage.map((item) => ({
+          label: item.label,
+          value: item.value,
+          display: `${item.value}%`,
+        })))}
+        ${journeyCard(data.users.behavior.journey)}
+      </div>
+      ${tableCard("User activity ledger", ["User", "Tasks requested", "Agents used", "Token consumption", "Login history"], data.users.activity.map((row) => [
+        row.user,
+        formatNumber(row.tasksRequested),
+        formatNumber(row.agentsUsed),
+        row.tokenConsumption,
+        row.loginHistory,
+      ]))}
+    </div>
+  `;
+}
+
+function renderUserRetention() {
+  const retention = getSnapshot().users.retention;
+
+  return `
+    <div class="view-content">
+      ${screenIntro("User retention analytics", "Track retention curves, churn, engagement time, and behavioral heat maps to understand long-term product stickiness.")}
+      <div class="metric-grid">
+        ${metricCard({ label: "Day 1", value: `${retention.day1}%`, trend: "Strong", caption: "Immediate retention" })}
+        ${metricCard({ label: "Day 7", value: `${retention.day7}%`, trend: "Recovering", caption: "Week-one retention" })}
+        ${metricCard({ label: "Day 30", value: `${retention.day30}%`, trend: "Core users", caption: "Monthly retention" })}
+        ${metricCard({ label: "Churn Rate", value: `${retention.churnRate}%`, trend: "-0.6%", caption: `Average session ${retention.sessionDuration}` })}
+      </div>
+      <div class="panel-grid">
+        ${heatmapCard(getSnapshot().users.behavior.heatmap)}
+        ${barsChart("Retention funnel", [
+          { label: "Day 1", value: retention.day1, display: `${retention.day1}%` },
+          { label: "Day 7", value: retention.day7, display: `${retention.day7}%` },
+          { label: "Day 30", value: retention.day30, display: `${retention.day30}%` },
+        ], "Retention")}
       </div>
     </div>
   `;
 }
 
-function renderDownloadsLocation() {
+function renderTeamRoles() {
+  const team = getSnapshot().team;
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Download distribution by geography",
-        "Track which markets are installing AGI-1 fastest and where additional localization, support, and compute should be provisioned."
-      )}
+    <div class="view-content">
+      ${screenIntro("Team management", "Run internal operating control for founders, executives, admins, managers, developers, analysts, and support operators.")}
       <div class="panel-grid">
-        ${worldMapCard()}
-        ${barsChart("App downloads by country", analytics.topCountries.slice(0, 6).map(([label, users, share]) => ({
-          label,
-          value: users,
-          display: `${formatNumber(users)} downloads | ${share}`,
-        })), "#72f5ff")}
+        ${tableCard("Role matrix", ["Role", "Permissions"], team.roles.map((role) => [role.role, role.permissions]))}
+        ${tableCard("Active team roster", ["Name", "Role", "Scope", "Last active", "Status"], team.members.map((member) => [
+          member.name,
+          member.role,
+          member.scope,
+          member.lastActive,
+          statusPill(member.status, member.status.toLowerCase()),
+        ]))}
       </div>
+    </div>
+  `;
+}
+
+function renderTeamPermissions() {
+  const team = getSnapshot().team;
+  return `
+    <div class="view-content">
+      ${screenIntro("Permissions and access control", "Administer the access control matrix that governs strategic dashboards, system configuration, infrastructure, analytics, and support operations.")}
+      ${tableCard("Access control matrix", ["Role", "Scope", "Control level"], team.roles.map((role) => [
+        role.role,
+        role.permissions,
+        role.role === "Owner" ? statusPill("Full", "success") : role.role === "Analyst" || role.role === "Support" ? statusPill("Restricted", "warning") : statusPill("Managed", "success"),
+      ]))}
+      <div class="panel-grid">
+        ${bulletCard("Governance controls", "Policy", [
+          "Least-privilege role assignment",
+          "Activity tracking across all admin actions",
+          "Audit trails retained for security review",
+          "Aegis evaluates permission-sensitive operations",
+        ])}
+        ${bulletCard("Operational actions", "Admin tasks", [
+          "Invite team member",
+          "Assign role",
+          "Remove access",
+          "Escalate anomalous behavior",
+        ])}
+      </div>
+    </div>
+  `;
+}
+
+function renderTeamAccessLogs() {
+  return `
+    <div class="view-content">
+      ${screenIntro("Access logs", "Review admin actions, security-sensitive configuration changes, and credential lifecycle events with a clean audit trail.")}
+      ${accessLogFeed(getSnapshot().team.accessLogs)}
     </div>
   `;
 }
 
 function renderAvatarManagement(name) {
-  const avatar = analytics.avatars.find((item) => item.name === name);
+  const avatar = getSnapshot().digitalHumans.avatars.find((entry) => entry.name === name);
+  const counterpart = getSnapshot().digitalHumans.avatars.find((entry) => entry.name !== name);
+
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        `${name} digital human operations`,
-        `${name} is a presentation-selectable digital human with the same capability contract as the alternate avatar. Control runtime, retraining, voice, personality, and live test operations here.`
-      )}
-      <div class="split-layout">
-        <article class="avatar-card panel">
-          <div class="avatar-profile">
-            <div class="avatar-face">${avatar.name.charAt(0)}</div>
-            <div>
-              <strong>${avatar.name}</strong>
-              <p class="muted">${avatar.role}</p>
-              ${statusPill(avatar.status, "success")}
-            </div>
-          </div>
-          <div class="avatar-stats">
-            <div><span class="muted">Tasks handled</span><strong>${avatar.tasks}</strong></div>
-            <div><span class="muted">Conversations today</span><strong>${avatar.conversations}</strong></div>
-            <div><span class="muted">Customer satisfaction</span><strong>${avatar.csat}</strong></div>
-            <div><span class="muted">Response latency</span><strong>${avatar.latency}</strong></div>
-            <div><span class="muted">Performance rating</span><strong>${avatar.rating}</strong></div>
-            <div><span class="muted">Accuracy score</span><strong>${avatar.accuracy}</strong></div>
-          </div>
-        </article>
-        <article class="control-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Controls</p>
-              <h3 class="section-title">${name} runtime actions</h3>
-            </div>
-          </div>
-          <ul class="control-list">
-            <li><span>Start / Stop avatar</span><button class="mini-button">Toggle</button></li>
-            <li><span>Retrain AI</span><button class="mini-button">Queue</button></li>
-            <li><span>Update personality</span><button class="mini-button">Edit</button></li>
-            <li><span>Update voice model</span><button class="mini-button">Swap</button></li>
-            <li><span>Test conversation</span><button class="mini-button">Launch</button></li>
-          </ul>
-        </article>
+    <div class="view-content">
+      ${screenIntro(`${name} digital human management`, `${name} is presentation-specific but capability-identical to ${counterpart.name}. This control screen manages status, tasks, conversations, accuracy, latency, and contextual presentation.`)}
+      <div class="panel-grid">
+        ${avatarActivityCard([avatar])}
+        ${keyValueCard("Avatar controls", "Operator actions", [
+          { label: "Start / Stop avatar", value: "Ready" },
+          { label: "Retrain AI", value: "Queued" },
+          { label: "Update personality", value: "Managed" },
+          { label: "Update voice model", value: "Ready" },
+          { label: "Test conversation", value: "Available" },
+        ])}
       </div>
-      ${tableCard(`${name} session ledger`, ["Window", "Handled", "CSAT", "Accuracy", "Latency"], [
-        ["08:00-10:00", "41", "97.1%", "99.4%", "162ms"],
-        ["10:00-12:00", "58", "98.3%", "99.1%", "174ms"],
-        ["12:00-14:00", "63", "98.8%", "99.6%", "168ms"],
-        ["14:00-16:00", "42", "97.9%", "99.2%", "181ms"],
+      ${tableCard(`${name} performance ledger`, ["Metric", "Value"], [
+        ["Tasks handled", formatNumber(avatar.tasksHandled)],
+        ["Conversations today", formatNumber(avatar.conversationsToday)],
+        ["Customer satisfaction", `${avatar.customerSatisfaction}%`],
+        ["Performance rating", avatar.performanceRating],
+        ["Accuracy", `${avatar.accuracy}%`],
+        ["Latency", `${avatar.latencyMs}ms`],
+        ["Outfit profile", avatar.outfitProfile],
       ])}
     </div>
   `;
 }
 
 function renderAvatarSettings() {
+  const digitalHumans = getSnapshot().digitalHumans;
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Avatar settings and presentation logic",
-        "Configure contextual outfits, voice models, wake words, realtime presence mode, and presentation rules shared by Jack and Julia."
-      )}
-      <div class="settings-grid">
-        <article class="control-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Presentation logic</p>
-              <h3 class="section-title">Dynamic role styling</h3>
-            </div>
-          </div>
-          <ul class="control-list">
-            <li><span>Healthcare outfit</span>${statusPill("Doctor enabled")}</li>
-            <li><span>Finance outfit</span>${statusPill("Executive enabled")}</li>
-            <li><span>Media anchor outfit</span>${statusPill("Studio enabled", "warning")}</li>
-            <li><span>Wake phrase routing</span>${statusPill("Hey Jack / Hi Julia")}</li>
-          </ul>
-        </article>
-        <article class="control-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Voice stack</p>
-              <h3 class="section-title">Realtime voice configuration</h3>
-            </div>
-          </div>
-          <ul class="control-list">
-            <li><span>Presence mode</span><strong>mvp_mp4 / LiveKit hybrid</strong></li>
-            <li><span>Voice synthesis quality</span><strong>Studio Premium</strong></li>
-            <li><span>Lipsync engine</span><strong>PersonaPlex realtime</strong></li>
-            <li><span>Interrupt support</span><strong>Enabled</strong></li>
-          </ul>
-        </article>
+    <div class="view-content">
+      ${screenIntro("Digital human configuration", "Manage shared interface contracts, wake phrase activation, voice/video routing, contextual outfit logic, and persona parity between Jack and Julia.")}
+      <div class="panel-grid">
+        ${tableCard("Avatar settings", ["Setting", "Value"], digitalHumans.settings.map((row) => [row.setting, row.value]))}
+        ${bulletCard("Wake phrase routing", "Activation", digitalHumans.wakePhrases)}
       </div>
     </div>
   `;
 }
 
-function renderWorkforceAgents() {
+function renderAgentList() {
+  const agents = getSnapshot().agents;
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "AGI workforce management",
-        "Control specialized agents across sales, support, research, booking, marketing, and finance while observing automation success rates and runtime health."
-      )}
-      <div class="panel-grid">
-        ${networkCard()}
-        ${barsChart("Automation success rate", analytics.agents.map(([label, , count, accuracy]) => ({
-          label,
-          value: Number.parseFloat(accuracy),
-          display: `${count} tasks | ${accuracy}`,
-        })), "#72f5ff")}
+    <div class="view-content">
+      ${screenIntro("AGI agent management", "Monitor the entire workforce of task agents, supervisor agents, executive agents, research agents, customer agents, and security agents.")}
+      <div class="metric-grid">
+        ${Object.entries(agents.summary)
+          .map(([label, value]) =>
+            metricCard({
+              label: label.replace(/([A-Z])/g, " $1").replace(/^./, (char) => char.toUpperCase()),
+              value: formatNumber(value),
+              trend: "Online",
+              caption: "Active capacity",
+            })
+          )
+          .join("")}
       </div>
-      ${tableCard("Workforce agent roster", ["Agent", "Runtime", "Tasks", "Accuracy", "Rating", "Automation success"], analytics.agents.map((agent) => [
-        agent[0],
-        agent[1] === "ACTIVE" ? statusPill("Online") : statusPill("Monitor", "warning"),
-        formatNumber(agent[2]),
-        agent[3],
-        agent[4],
-        agent[5],
+      ${tableCard("Agent roster", ["Agent", "Type", "Tasks completed", "Accuracy", "Quality rating", "Failure rate", "Response speed"], agents.list.map((agent) => [
+        agent.name,
+        agent.type,
+        formatNumber(agent.tasksCompleted),
+        `${agent.accuracy}%`,
+        `${agent.qualityRating}/5`,
+        `${agent.failureRate}%`,
+        `${agent.responseSpeedMs}ms`,
       ]))}
     </div>
   `;
 }
 
-function renderTaskAutomation() {
+function renderAgentPerformance() {
+  const agents = getSnapshot().agents;
+  const chartEntries = agents.performance.map((item) => ({
+    label: item.category,
+    value: item.successRate,
+    display: `${item.successRate}%`,
+  }));
+
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Task execution monitoring",
-        "Watch live tasks, completions, failures, execution time, and distribution across the primary AGI automation categories."
-      )}
-      <div class="metric-grid">
-        ${metricCard({ label: "Live Tasks", value: "316", trend: "+7.2%", caption: "Currently running autonomous workflows." })}
-        ${metricCard({ label: "Completed Today", value: "41,228", trend: "96.8% success", caption: "All task categories combined." })}
-        ${metricCard({ label: "Failed Today", value: "142", trend: "-18.4%", caption: "Failures reduced after latest remediation sweep." })}
-        ${metricCard({ label: "Average Exec Time", value: "2m 18s", trend: "-11s", caption: "Median autonomous completion time." })}
-      </div>
+    <div class="view-content">
+      ${screenIntro("Agent performance", "Track task success, automation coverage, completion speed, runtime health, and execution quality across the AGI workforce.")}
       <div class="panel-grid">
-        ${lineChart("Task completion timeline", { primary: [22, 36, 48, 54, 63, 70, 84, 88, 95, 104, 118, 126] })}
-        ${barsChart("Agent task distribution", [
-          { label: "Booking", value: 912, display: "912 live / completed" },
-          { label: "Buying products", value: 614, display: "614 live / completed" },
-          { label: "Customer service calls", value: 1240, display: "1,240 live / completed" },
-          { label: "Marketing campaigns", value: 802, display: "802 live / completed" },
-          { label: "Sales calls", value: 978, display: "978 live / completed" },
-          { label: "Tax filing", value: 214, display: "214 live / completed" },
-          { label: "Data research", value: 1338, display: "1,338 live / completed" },
-        ], "#ff8d3f")}
+        ${barsChart("Task success by agent category", chartEntries, "Quality")}
+        ${lineChart("Tasks per minute vs automation load", getSnapshot().dashboard.charts.tasksPerMinute, getSnapshot().dashboard.charts.inferenceLoad)}
+      </div>
+      ${tableCard("Agent performance matrix", ["Category", "Success rate", "Automation rate", "Runtime"], agents.performance.map((item) => [
+        item.category,
+        `${item.successRate}%`,
+        `${item.automationRate}%`,
+        statusPill(item.runtime, item.runtime.toLowerCase()),
+      ]))}
+    </div>
+  `;
+}
+
+function renderAgentRankings() {
+  const agents = getSnapshot().agents;
+  return `
+    <div class="view-content">
+      ${screenIntro("Agent rankings", "Benchmark quality leaders across research, coding, customer support, and specialist execution domains.")}
+      <div class="panel-grid">
+        ${tableCard("Agent ranking board", ["Agent", "Accuracy", "Rating"], agents.rankings.map((item) => [
+          item.agent,
+          `${item.accuracy}%`,
+          `${item.rating}/5`,
+        ]))}
+        ${bulletCard("Agent categories", "Taxonomy", agents.categories)}
       </div>
     </div>
   `;
 }
 
-function renderMarketplaceAgents() {
+function renderModelLibrary() {
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Marketplace automation",
-        "Manage AGI agents that buy and sell products online, monitor product velocity, and supervise revenue from automated commerce."
-      )}
+    <div class="view-content">
+      ${screenIntro("Model management", "Manage LLM, vision, speech, and decision models powering the AGI-1 cognitive and interaction layers.")}
+      ${tableCard("Model library", ["Model", "Family", "Latency", "Accuracy", "Cost", "Energy"], getSnapshot().models.library.map((model) => [
+        model.model,
+        model.family,
+        model.latency,
+        model.accuracy,
+        model.cost,
+        model.energy,
+      ]))}
+    </div>
+  `;
+}
+
+function renderModelBenchmarks() {
+  const benchmarks = getSnapshot().models.benchmarks;
+  return `
+    <div class="view-content">
+      ${screenIntro("Model benchmarks", "Compare AGI core reasoning models across latency, accuracy, and operating cost to guide routing and deployment decisions.")}
+      <div class="panel-grid">
+        ${lineChart(
+          "AGI Core vs Research Model",
+          benchmarks.map((item) => item.agiCore),
+          benchmarks.map((item) => item.researchModel)
+        )}
+        ${tableCard("Benchmark comparison", ["Metric", "AGI Core", "Fast Model", "Research Model"], benchmarks.map((item) => [
+          item.metric,
+          String(item.agiCore),
+          String(item.fastModel),
+          String(item.researchModel),
+        ]))}
+      </div>
+    </div>
+  `;
+}
+
+function renderModelABTesting() {
+  return `
+    <div class="view-content">
+      ${screenIntro("Model A/B testing", "Evaluate production behavior, conversation quality, planning clarity, and user preference across competing model variants.")}
+      ${tableCard("A/B experiments", ["Test", "Variant A", "Variant B", "Winner", "Confidence"], getSnapshot().models.abTests.map((test) => [
+        test.test,
+        test.variantA,
+        test.variantB,
+        test.winner,
+        test.confidence,
+      ]))}
+    </div>
+  `;
+}
+
+function renderDataAnalysis() {
+  const analytics = getSnapshot().analytics;
+  return `
+    <div class="view-content">
+      ${screenIntro("Data analysis", "Track feature usage, data collection streams, product intelligence, and the telemetry that powers AGI-1 improvement loops.")}
+      <div class="panel-grid">
+        ${barsChart("Feature usage", analytics.dataAnalysis.featureUsage.map((item) => ({
+          label: item.label,
+          value: item.value,
+          display: `${item.value}%`,
+        })))}
+        ${bulletCard("Collected signals", "Learning layer", analytics.dataAnalysis.collection)}
+      </div>
+    </div>
+  `;
+}
+
+function renderProductMarketFit() {
+  const fit = getSnapshot().analytics.productFit;
+  return `
+    <div class="view-content">
+      ${screenIntro("Product market fit", "Measure product success through satisfaction, NPS, growth rate, virality, and monetization health.")}
       <div class="metric-grid">
-        ${metricCard({ label: "Active Buying Tasks", value: "86", trend: "+11", caption: "Inventory sourcing and replenishment." })}
-        ${metricCard({ label: "Active Selling Tasks", value: "141", trend: "+22", caption: "Marketplace listings and negotiations." })}
-        ${metricCard({ label: "Products Purchased", value: "3,912", trend: "+18.2%", caption: "Transactions completed today." })}
-        ${metricCard({ label: "Products Sold", value: "4,384", trend: "+22.6%", caption: "Automated sales closed today." })}
+        ${metricCard({ label: "NPS", value: String(fit.nps), trend: "+3", caption: "Net promoter score" })}
+        ${metricCard({ label: "Growth Rate", value: `${fit.growthRate}%`, trend: "Month over month", caption: "User and revenue growth" })}
+        ${metricCard({ label: "Virality", value: fit.viralityCoefficient.toFixed(2), trend: "Share loop", caption: "Organic spread coefficient" })}
+        ${metricCard({ label: "User Satisfaction", value: `${fit.userSatisfaction}/5`, trend: "Stable", caption: "Aggregate product satisfaction" })}
       </div>
       <div class="panel-grid">
-        ${barsChart("Marketplace integrations", [
-          { label: "Amazon", value: 94, display: "94 active syncs" },
-          { label: "Shopify", value: 86, display: "86 active syncs" },
-          { label: "eBay", value: 73, display: "73 active syncs" },
-          { label: "Walmart", value: 41, display: "41 active syncs" },
+        ${barsChart("Revenue mix", getSnapshot().finance.revenueMix.map((item) => ({
+          label: item.label,
+          value: item.value,
+          display: `${item.value}%`,
+        })), "Monetization")}
+        ${barsChart("Feature adoption", getSnapshot().analytics.dataAnalysis.featureUsage.map((item) => ({
+          label: item.label,
+          value: item.value,
+          display: `${item.value}%`,
+        })), "Usage")}
+      </div>
+    </div>
+  `;
+}
+
+function renderUserBehavior() {
+  const behavior = getSnapshot().analytics.userBehavior;
+  return `
+    <div class="view-content">
+      ${screenIntro("User behavior analysis", "Study click patterns, platform time, onboarding friction, and drop-off points across the AGI-1 user journey.")}
+      <div class="panel-grid">
+        ${tableCard("Drop-off points", ["Stage", "Drop-off rate"], behavior.dropOffPoints.map((item) => [item.stage, `${item.rate}%`]))}
+        ${tableCard("Usage time by platform", ["Platform", "Minutes"], behavior.usageTimeByPlatform.map((item) => [item.platform, `${item.minutes} min`]))}
+      </div>
+      ${journeyCard(getSnapshot().users.behavior.journey)}
+    </div>
+  `;
+}
+
+function renderInstallAnalytics() {
+  const summary = getSnapshot().downloads.summary;
+  return `
+    <div class="view-content">
+      ${screenIntro("Install analytics", "Track downloads, active installs, daily velocity, uninstall rates, and adoption strength for the AGI-1 mobile and web ecosystem.")}
+      <div class="metric-grid">
+        ${metricCard({ label: "Total Downloads", value: formatNumber(summary.totalDownloads), trend: "+11.2%", caption: "Lifetime install volume" })}
+        ${metricCard({ label: "Active Installs", value: formatNumber(summary.activeInstalls), trend: "+7.4%", caption: "Currently retained install base" })}
+        ${metricCard({ label: "Daily Installs", value: formatNumber(summary.dailyInstalls), trend: "+5.2%", caption: "Daily acquisition" })}
+        ${metricCard({ label: "Uninstall Rate", value: `${summary.uninstallRate}%`, trend: "-0.3%", caption: "Retention headwind" })}
+      </div>
+    </div>
+  `;
+}
+
+function renderGeographicData() {
+  const downloads = getSnapshot().downloads;
+  return `
+    <div class="view-content">
+      ${screenIntro("Geographic data", "Monitor installations, active usage, and market expansion by country and world region.")}
+      <div class="panel-grid">
+        ${worldMapCard(downloads)}
+        ${barsChart("Regional strength", downloads.heatmap.map((region) => ({
+          label: region.region,
+          value: region.value,
+          display: `${region.value}/100`,
+        })), "Regional intensity")}
+      </div>
+      ${tableCard("Downloads by geography", ["Country", "Installs", "Share"], downloads.geography.map((row) => [
+        row.country,
+        formatNumber(row.installs),
+        row.share,
+      ]))}
+    </div>
+  `;
+}
+
+function renderAppMonitor() {
+  return `
+    <div class="view-content">
+      ${screenIntro("App performance monitor", "Track crash rates, session length, and API responsiveness across iOS, Android, and web clients.")}
+      ${tableCard("Application health", ["Surface", "Crash rate", "Session length", "API latency"], getSnapshot().performance.apps.map((app) => [
+        app.surface,
+        app.crashRate,
+        app.sessionLength,
+        app.apiLatency,
+      ]))}
+    </div>
+  `;
+}
+
+function renderWebsiteMonitor() {
+  return `
+    <div class="view-content">
+      ${screenIntro("Website performance monitor", "Watch page load speed, bounce rate, CDN status, and backend-linked public surface quality for AGI-1 product and corporate sites.")}
+      <div class="panel-grid">
+        ${tableCard("Website monitor", ["Surface", "Page load", "Bounce rate", "CDN"], getSnapshot().performance.websites.map((site) => [
+          site.surface,
+          site.pageLoad,
+          site.bounceRate,
+          statusPill(site.cdnStatus, site.cdnStatus.toLowerCase()),
+        ]))}
+        ${keyValueCard("Infrastructure KPIs", "Realtime", [
+          { label: "API response time", value: getSnapshot().performance.infrastructure.apiResponseTime },
+          { label: "Error rate", value: getSnapshot().performance.infrastructure.errorRate },
+          { label: "Network latency", value: getSnapshot().performance.infrastructure.networkLatency },
+          { label: "GPU utilization", value: getSnapshot().performance.infrastructure.gpuUtilization },
         ])}
-        ${lineChart("Automated sales revenue", { primary: realtimeSeries.revenue })}
       </div>
     </div>
   `;
 }
 
-function renderCustomerInteractions() {
+function renderThreatDetection() {
+  const security = getSnapshot().security;
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Digital human interaction monitoring",
-        "Track live conversations, video sessions, call transcripts, sentiment, satisfaction, and response velocity across Jack and Julia."
-      )}
-      <div class="panel-grid">
-        <article class="feed-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Live conversations</p>
-              <h3 class="section-title">Realtime customer feed</h3>
-            </div>
-          </div>
-          <ul class="notification-feed">
-            <li class="notification-item"><strong>Jack / Enterprise founder</strong><span class="muted">"Book flights, prep investor memo, and call legal counsel."</span></li>
-            <li class="notification-item"><strong>Julia / Media producer</strong><span class="muted">"Summarize latest AI stories and outline a five-minute news segment."</span></li>
-            <li class="notification-item"><strong>Jack / Support escalation</strong><span class="muted">"Troubleshoot billing error and initiate refund."</span></li>
-          </ul>
-        </article>
-        ${lineChart("Conversation success and response time", {
-          primary: [72, 74, 76, 78, 81, 83, 85, 87, 88, 89, 91, 92],
-          secondary: [280, 260, 248, 238, 225, 214, 208, 194, 186, 182, 178, 174],
-        }, { primary: "#72f5ff", secondary: "#ff8d3f" })}
-      </div>
-      ${tableCard("Sentiment and transcript monitor", ["Session", "Avatar", "Sentiment", "CSAT", "Transcript"], [
-        ["CX-10021", "Jack", statusPill("Positive"), "4.9/5", "Client approved the sales playbook and scheduled follow-up."],
-        ["CX-10022", "Julia", statusPill("Positive"), "4.8/5", "News briefing delivered with sources and timing cues."],
-        ["CX-10023", "Jack", statusPill("Neutral", "warning"), "4.4/5", "Support conversation required second verification on refund route."],
-      ])}
-    </div>
-  `;
-}
-
-function renderBookingSystems() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Booking and reservation automation",
-        "Observe travel, hospitality, restaurant, and appointment scheduling performance across autonomous booking agents."
-      )}
+    <div class="view-content">
+      ${screenIntro("Threat detection", "Aegis monitors credential attacks, suspicious users, API abuse attempts, and policy anomalies across the AGI-1 ecosystem.")}
       <div class="metric-grid">
-        ${metricCard({ label: "Hotel Reservations", value: "612", trend: "98.2%", caption: "Successful bookings today." })}
-        ${metricCard({ label: "Flight Bookings", value: "391", trend: "96.8%", caption: "Completed itineraries today." })}
-        ${metricCard({ label: "Restaurant Reservations", value: "288", trend: "99.1%", caption: "Dining requests completed." })}
-        ${metricCard({ label: "Appointment Scheduling", value: "714", trend: "97.4%", caption: "Professional and healthcare slots reserved." })}
+        ${metricCard({ label: "Blocked Attacks", value: formatNumber(security.overview.blockedAttacks), trend: "Aegis", caption: "Threats neutralized" })}
+        ${metricCard({ label: "Suspicious Users", value: formatNumber(security.overview.suspiciousUsers), trend: "Monitor", caption: "Accounts under inspection" })}
+        ${metricCard({ label: "API Abuse Attempts", value: formatNumber(security.overview.apiAbuseAttempts), trend: "Rate limited", caption: "Traffic anomalies" })}
+        ${metricCard({ label: "Credential Risk", value: security.overview.credentialRisk, trend: "Stable", caption: "Current exposure level" })}
       </div>
+      ${tableCard("Security alerts", ["Severity", "Title", "Detail"], security.alerts.map((alert) => [
+        statusPill(alert.severity, alert.severity),
+        alert.title,
+        alert.detail,
+      ]))}
+    </div>
+  `;
+}
+
+function renderTokenProtection() {
+  const developer = getSnapshot().developer;
+  return `
+    <div class="view-content">
+      ${screenIntro("Token protection", "Control API keys, quota policy, sandbox risk, and the secure developer surface that exposes AGI-1 to partner applications.")}
       <div class="panel-grid">
-        ${lineChart("Booking success rate", { primary: [91, 92, 91, 93, 94, 95, 96, 96, 97, 97, 98, 98] })}
-        ${barsChart("Booking revenue", [
-          { label: "Hotels", value: 141000, display: "$141k" },
-          { label: "Flights", value: 96000, display: "$96k" },
-          { label: "Restaurants", value: 18000, display: "$18k" },
-          { label: "Appointments", value: 42000, display: "$42k" },
-        ], "#72f5ff")}
+        ${tableCard("API key registry", ["Name", "Scope", "Usage", "Status"], developer.apiKeys.map((key) => [
+          key.name,
+          key.scope,
+          key.usage,
+          statusPill(key.status, key.status.toLowerCase()),
+        ]))}
+        ${bulletCard("Token security controls", "Controls", getSnapshot().security.controls)}
       </div>
     </div>
   `;
 }
 
-function renderPerformanceBenchmarks() {
+function renderRevenue() {
+  const finance = getSnapshot().finance;
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "AGI benchmarking center",
-        "Compare Jack and Julia across reasoning accuracy, response speed, retrieval precision, task success, and user satisfaction."
-      )}
+    <div class="view-content">
+      ${screenIntro("Revenue and business intelligence", "Monitor subscriptions, API income, marketplace earnings, enterprise services, transaction volume, and monetization trends.")}
       <div class="metric-grid">
-        ${metricCard({ label: "Reasoning Accuracy", value: "99.3%", trend: "Jack +0.4", caption: "Weighted benchmark average." })}
-        ${metricCard({ label: "Response Speed", value: "172ms", trend: "Julia -11ms", caption: "Median production response latency." })}
-        ${metricCard({ label: "Task Success", value: "96.8%", trend: "Singularity stable", caption: "Autonomous task completion rate." })}
-        ${metricCard({ label: "Knowledge Accuracy", value: "98.9%", trend: "+1.1%", caption: "Retrieval and citation integrity." })}
+        ${metricCard({ label: "Daily Revenue", value: formatCurrency(finance.overview.dailyRevenue), trend: "+14.1%", caption: "Today" })}
+        ${metricCard({ label: "Monthly Revenue", value: formatCurrency(finance.overview.monthlyRevenue), trend: "+9.7%", caption: "This month" })}
+        ${metricCard({ label: "Conversion Rate", value: `${finance.overview.subscriptionConversionRate}%`, trend: "+1.3%", caption: "Paid subscription conversion" })}
+        ${metricCard({ label: "Lifetime Value", value: formatCurrency(finance.overview.lifetimeValue), trend: "+4.2%", caption: "Average LTV" })}
       </div>
-      ${tableCard("Jack vs Julia performance", ["Metric", "Jack", "Julia", "Leader"], [
-        ["Customer satisfaction", "97.8%", "98.6%", "Julia"],
-        ["Response latency", "178ms", "166ms", "Julia"],
-        ["Financial accuracy", "98.9%", "99.5%", "Julia"],
-        ["Strategic task closure", "97.4%", "96.8%", "Jack"],
-        ["Knowledge retrieval", "98.8%", "99.1%", "Julia"],
-      ])}
+      ${barsChart("Revenue mix", finance.revenueMix.map((item) => ({
+        label: item.label,
+        value: item.value,
+        display: `${item.value}%`,
+      })), "Business mix")}
     </div>
   `;
 }
 
-function renderMarketingIntelligence() {
+function renderSubscriptions() {
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Digital marketing intelligence",
-        "Track acquisition, channel health, SEO performance, traffic quality, and campaign conversion across AGI-1 growth programs."
-      )}
-      <div class="metric-grid">
-        ${metricCard({ label: "Campaign ROI", value: "4.8x", trend: "+0.6x", caption: "Blended ROI across paid and organic." })}
-        ${metricCard({ label: "Cost per Acquisition", value: "$28", trend: "-12%", caption: "Down from prior weekly average." })}
-        ${metricCard({ label: "Organic Traffic", value: "192k", trend: "+19%", caption: "SEO and content acquisition." })}
-        ${metricCard({ label: "Social Engagement", value: "8.2M", trend: "+22%", caption: "Cross-platform engagement this month." })}
-      </div>
-      <div class="panel-grid">
-        ${lineChart("Traffic and ranking momentum", {
-          primary: [28, 34, 38, 44, 52, 58, 61, 66, 74, 79, 84, 92],
-          secondary: [14, 19, 22, 26, 31, 36, 40, 44, 49, 52, 58, 63],
-        })}
-        ${barsChart("Funnel sources", [
-          { label: "Organic search", value: 41, display: "41%" },
-          { label: "Paid social", value: 24, display: "24%" },
-          { label: "Creator referrals", value: 18, display: "18%" },
-          { label: "Email lifecycle", value: 10, display: "10%" },
-          { label: "Partnerships", value: 7, display: "7%" },
-        ], "#ff8d3f")}
-      </div>
-    </div>
-  `;
-}
-
-function renderKnowledgeBrain() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Knowledge brain center",
-        "Visualize AGI-1 knowledge graphs, ingestion logs, retraining cadence, and knowledge accuracy scores for the shared intelligence layer."
-      )}
-      <div class="panel-grid">
-        ${networkCard()}
-        <article class="control-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Knowledge maintenance</p>
-              <h3 class="section-title">Learning updates</h3>
-            </div>
-          </div>
-          <ul class="stats-strip">
-            <li><span>Knowledge graph nodes</span><strong>24.8M</strong></li>
-            <li><span>New ingestion events today</span><strong>412k</strong></li>
-            <li><span>Model retraining cadence</span><strong>Every 6 hours</strong></li>
-            <li><span>Knowledge accuracy score</span><strong>98.9%</strong></li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  `;
-}
-
-function renderRevenueDashboard() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Revenue and business intelligence",
-        "Track daily and monthly revenue, revenue by feature and country, LTV, and subscription conversion across the AGI-1 platform."
-      )}
-      <div class="metric-grid">
-        ${metricCard({ label: "Daily Revenue", value: formatCurrency(state.revenueToday), trend: "+18.1%", caption: "Current day run rate." })}
-        ${metricCard({ label: "Monthly Revenue", value: "$9.8M", trend: "+24.7%", caption: "Rolling thirty-day gross revenue." })}
-        ${metricCard({ label: "Subscription Conversion", value: "12.4%", trend: "+1.8%", caption: "Trial to paid upgrade rate." })}
-        ${metricCard({ label: "User Lifetime Value", value: "$1,480", trend: "+9.4%", caption: "Modeled blended LTV." })}
-      </div>
-      <div class="panel-grid">
-        ${lineChart("Revenue by daypart", { primary: realtimeSeries.revenue, secondary: [62, 88, 96, 108, 126, 144, 156, 170, 181, 198, 214, 226] })}
-        ${barsChart("Revenue by feature", [
-          { label: "Realtime avatar calls", value: 42, display: "42%" },
-          { label: "Enterprise orchestration", value: 26, display: "26%" },
-          { label: "Autonomous tasks", value: 18, display: "18%" },
-          { label: "Agent workforce seats", value: 14, display: "14%" },
-        ])}
-      </div>
-    </div>
-  `;
-}
-
-function renderAppMonitoring() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Application monitoring",
-        "Monitor uptime, app latency, network traffic, error rates, and mixed surface performance for mobile and web."
-      )}
-      <div class="metric-grid">
-        ${metricCard({ label: "App Uptime", value: "99.982%", trend: "+0.004%", caption: "Past 30 days." })}
-        ${metricCard({ label: "API Latency", value: "96ms", trend: "-8ms", caption: "Gateway median." })}
-        ${metricCard({ label: "Error Rate", value: "0.02%", trend: "-0.01%", caption: "All surfaces combined." })}
-        ${metricCard({ label: "Network Traffic", value: "8.4 TB", trend: "+14%", caption: "Today across CDN and API." })}
-      </div>
-      <div class="panel-grid">
-        ${lineChart("Web and mobile latency", { primary: realtimeSeries.latency, secondary: [148, 146, 142, 138, 132, 128, 122, 118, 112, 108, 105, 101] })}
-        ${barsChart("Error sources", [
-          { label: "iOS client", value: 9, display: "9 incidents" },
-          { label: "Android client", value: 11, display: "11 incidents" },
-          { label: "Web HUD", value: 7, display: "7 incidents" },
-          { label: "Admin panel", value: 3, display: "3 incidents" },
-        ], "#ff8d3f")}
-      </div>
-    </div>
-  `;
-}
-
-function renderServerMonitoring() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Infrastructure server monitoring",
-        "Track server load, memory, GPU utilization, network saturation, and API service health for the sovereign EC2 runtime."
-      )}
-      <div class="panel-grid">
-        ${lineChart("CPU and GPU load", { primary: realtimeSeries.usage, secondary: realtimeSeries.gpu })}
-        ${barsChart("Server load by service", [
-          { label: "FastAPI runtime", value: 42, display: "42%" },
-          { label: "LiveKit bridge", value: 56, display: "56%" },
-          { label: "Nginx gateway", value: 18, display: "18%" },
-          { label: "DynamoDB I/O", value: 24, display: "24%" },
-        ], "#72f5ff")}
-      </div>
-    </div>
-  `;
-}
-
-function renderTeamAccess() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Admin team management",
-        "Manage owners, executives, managers, developers, analysts, and support agents with activity logging and role assignment."
-      )}
-      ${tableCard("Team access roster", ["Name", "Role", "Scope", "Last Active", "Status"], [
-        ["Jacquelin Antoine", "Owner", "Global", "2 minutes ago", statusPill("Online")],
-        ["Executive Ops", "Executive", "Revenue + Agents", "8 minutes ago", statusPill("Online")],
-        ["Infra Engineering", "Developer", "Infrastructure", "16 minutes ago", statusPill("Online")],
-        ["Growth Analytics", "Analyst", "Users + Marketing", "27 minutes ago", statusPill("Online")],
-        ["Customer Success", "Support Agent", "Conversations", "42 minutes ago", statusPill("Standby", "warning")],
-      ])}
-    </div>
-  `;
-}
-
-function renderPermissions() {
-  return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Permissions and policy enforcement",
-        "Control role-based access, audit trails, and sensitive operational privileges across AGI-1 command surfaces."
-      )}
-      <div class="settings-grid">
-        <article class="control-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Policy matrix</p>
-              <h3 class="section-title">Sensitive actions</h3>
-            </div>
-          </div>
-          <ul class="control-list">
-            <li><span>Model switching</span>${statusPill("Owner only", "warning")}</li>
-            <li><span>Agent deployment</span>${statusPill("Executive + Developer")}</li>
-            <li><span>Revenue data export</span>${statusPill("Owner + Analyst")}</li>
-            <li><span>Conversation replay</span>${statusPill("Support + Executive")}</li>
-          </ul>
-        </article>
-        <article class="feed-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Audit log</p>
-              <h3 class="section-title">Recent permission events</h3>
-            </div>
-          </div>
-          <ul class="notification-feed">
-            <li class="notification-item"><strong>Aegis approved model swap preview</strong><span class="muted">Developer role elevated for 15-minute sandbox window.</span></li>
-            <li class="notification-item"><strong>Conversation export denied</strong><span class="muted">Support role attempted to access executive-only transcript archive.</span></li>
-            <li class="notification-item"><strong>Revenue dashboard export granted</strong><span class="muted">Analyst role executed scheduled finance snapshot.</span></li>
-          </ul>
-        </article>
-      </div>
+    <div class="view-content">
+      ${screenIntro("Subscriptions", "Track account tier health, growth by plan, and monetization performance across free, premium, enterprise, and developer customers.")}
+      ${tableCard("Subscription tiers", ["Tier", "Accounts", "Growth"], getSnapshot().finance.subscriptions.map((tier) => [
+        tier.tier,
+        formatNumber(tier.accounts),
+        tier.growth,
+      ]))}
     </div>
   `;
 }
 
 function renderSystemSettings() {
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Master AGI system controls",
-        "Operate the control plane for model routing, system power state, deployment levels, security, and digital human configuration."
-      )}
-      <div class="settings-grid">
-        <article class="control-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Master control</p>
-              <h3 class="section-title">Runtime toggles</h3>
-            </div>
-          </div>
-          <ul class="control-list">
-            <li><span>AGI system on/off</span><button class="secondary-button">Live</button></li>
-            <li><span>Model switching</span><button class="ghost-button">Balanced</button></li>
-            <li><span>Agent deployment mode</span><button class="ghost-button">Autonomous</button></li>
-            <li><span>Security level</span><button class="secondary-button">Aegis strict</button></li>
-          </ul>
-        </article>
-        <article class="control-card panel">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Voice and avatar</p>
-              <h3 class="section-title">Realtime configuration</h3>
-            </div>
-          </div>
-          <ul class="control-list">
-            <li><span>Voice model family</span><strong>Studio Sovereign</strong></li>
-            <li><span>Digital human render mode</span><strong>Cinematic 60 FPS</strong></li>
-            <li><span>Wake phrase listener</span><strong>Enabled</strong></li>
-            <li><span>Interrupt policy</span><strong>Immediate</strong></li>
-          </ul>
-        </article>
+    <div class="view-content">
+      ${screenIntro("System settings", "Central configuration for platform rules, AI model policies, agent deployment, API rate limits, and security behavior.")}
+      ${tableCard("System settings", ["Domain", "State", "Notes"], getSnapshot().system.settings.map((setting) => [
+        setting.domain,
+        statusPill(setting.state, setting.state.toLowerCase()),
+        setting.notes,
+      ]))}
+    </div>
+  `;
+}
+
+function renderSystemInfrastructure() {
+  return `
+    <div class="view-content">
+      ${screenIntro("System infrastructure", "Live view of cloud components, realtime bridges, memory systems, storage, and operating infrastructure used by AGI-1.")}
+      ${tableCard("Infrastructure", ["Component", "Status", "Detail"], getSnapshot().system.infrastructure.map((item) => [
+        item.component,
+        statusPill(item.status, item.status.toLowerCase()),
+        item.detail,
+      ]))}
+    </div>
+  `;
+}
+
+function renderSystemIntegrations() {
+  return `
+    <div class="view-content">
+      ${screenIntro("System integrations", "Monitor external platforms and connected services across realtime media, memory, storage, payments, and partner systems.")}
+      ${tableCard("Integrations", ["Integration", "Status", "Latency", "Notes"], getSnapshot().system.integrations.map((item) => [
+        item.integration,
+        statusPill(item.status, item.status.toLowerCase()),
+        item.latency,
+        item.notes,
+      ]))}
+    </div>
+  `;
+}
+
+function renderDeveloperApiKeys() {
+  return `
+    <div class="view-content">
+      ${screenIntro("Developer API keys", "Manage external developer access, scopes, lifecycle state, and traffic exposure across the AGI-1 ecosystem.")}
+      ${tableCard("API keys", ["Name", "Scope", "Usage", "Status"], getSnapshot().developer.apiKeys.map((key) => [
+        key.name,
+        key.scope,
+        key.usage,
+        statusPill(key.status, key.status.toLowerCase()),
+      ]))}
+    </div>
+  `;
+}
+
+function renderDeveloperUsage() {
+  const developer = getSnapshot().developer;
+  return `
+    <div class="view-content">
+      ${screenIntro("Developer API usage", "Track request volume, latency, and plan quotas for enterprise, internal, and external developer traffic.")}
+      <div class="panel-grid">
+        ${tableCard("Usage by segment", ["Segment", "Requests", "Average latency"], developer.usage.map((row) => [
+          row.segment,
+          formatNumber(row.requests),
+          row.avgLatency,
+        ]))}
+        ${tableCard("Rate limits", ["Plan", "RPM", "Burst"], developer.rateLimits.map((row) => [
+          row.plan,
+          formatNumber(row.rpm),
+          formatNumber(row.burst),
+        ]))}
       </div>
     </div>
   `;
 }
 
-function renderIntegrations() {
+function renderFallback() {
   return `
-    <div class="stack">
-      ${renderScreenIntro(
-        "Integrations",
-        "Monitor third-party and sovereign integrations for API health, billing, telephony, meetings, marketplaces, and observability."
-      )}
-      ${tableCard("Integration registry", ["Integration", "Status", "Latency", "Notes"], [
-        ["LiveKit Cloud", statusPill("Connected"), "178ms", "Realtime video and voice transport"],
-        ["DynamoDB", statusPill("Connected"), "34ms", "Shared memory and task state"],
-        ["SearXNG", statusPill("Connected"), "758ms", "Sovereign research feed"],
-        ["Stripe", statusPill("Connected"), "124ms", "Revenue and billing events"],
-        ["Twilio SIP", statusPill("Standby", "warning"), "n/a", "Telephony route staged"],
-        ["Zoom / Meet Adapter", statusPill("Connected"), "212ms", "Meeting automation bridge"],
-      ])}
-    </div>
+    <article class="section-card panel">
+      <p class="eyebrow">Missing surface</p>
+      <h3 class="section-title">This admin module has not been wired yet.</h3>
+      <p class="section-description">The requested panel is not in the current navigation registry.</p>
+    </article>
   `;
 }
 
-function renderFallback() {
-  return renderScreenIntro(
-    "Module unavailable",
-    "The requested control surface is not yet defined in this dashboard build."
-  );
-}
-
-function updateHeader() {
-  const definition = sections[state.view] || sections["command-center"];
-  viewTitle.textContent = definition.title;
-  viewBreadcrumb.textContent = definition.breadcrumb;
-  topUsers.textContent = formatNumber(state.liveUsers);
-  heroSessions.textContent = formatNumber(state.realtimeSessions);
-  heroTasks.textContent = formatNumber(state.tasksToday);
-  heroRevenue.textContent = formatCurrency(state.revenueToday);
-  systemIndicator.className = `status-dot status-${state.systemColor}`;
-  systemLabel.textContent = state.systemStatus;
-}
-
 function renderNavigation(filterText = "") {
-  const query = filterText.trim().toLowerCase();
-  sidebarNav.innerHTML = navigation
-    .map((group) => {
-      const items = group.items.filter((item) => {
-        if (!query) return true;
-        return (
-          item.label.toLowerCase().includes(query) ||
-          item.hint.toLowerCase().includes(query) ||
-          group.group.toLowerCase().includes(query)
-        );
-      });
+  const normalized = filterText.trim().toLowerCase();
+  const groups = navigation
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => {
+        if (!normalized) {
+          return true;
+        }
 
-      if (!items.length) {
-        return "";
-      }
+        return `${item.label} ${item.hint}`.toLowerCase().includes(normalized);
+      }),
+    }))
+    .filter((group) => group.items.length > 0);
 
-      return `
+  sidebarNav.innerHTML = groups
+    .map(
+      (group) => `
         <section class="nav-group">
-          <p class="nav-group-title">${group.group}</p>
+          <h3 class="nav-group-title">${group.group}</h3>
           <ul class="nav-list">
-            ${items
+            ${group.items
               .map(
                 (item) => `
                   <li>
-                    <button class="nav-item-button ${item.id === state.view ? "active" : ""}" data-view="${item.id}" type="button">
+                    <button class="nav-item-button ${state.view === item.id ? "active" : ""}" type="button" data-view="${item.id}">
                       <span class="nav-item-label">
                         <strong>${item.label}</strong>
                         <span>${item.hint}</span>
@@ -1290,54 +1729,106 @@ function renderNavigation(filterText = "") {
               .join("")}
           </ul>
         </section>
-      `;
-    })
+      `
+    )
     .join("");
 }
 
+function updateTopbar() {
+  const data = getSnapshot();
+  const status = data.dashboard.status;
+
+  viewTitle.textContent = sections[state.view]?.title || "AGI-1 Command Center";
+  viewBreadcrumb.textContent = sections[state.view]?.breadcrumb || "Dashboard";
+  topUsers.textContent = formatNumber(data.dashboard.metrics.activeUsers);
+  heroSessions.textContent = formatNumber(Math.round(data.dashboard.metrics.activeUsers * 0.025));
+  heroTasks.textContent = formatNumber(data.dashboard.metrics.tasksToday);
+  heroRevenue.textContent = formatCurrency(data.dashboard.metrics.revenueToday);
+  systemLabel.textContent = status.label;
+  systemIndicator.className = `status-dot ${toneToDot(status.tone)}`;
+
+  apiConnectionLabel.textContent = state.api.mode === "live" ? "Live API" : state.api.mode === "error" ? "Sync Failed" : "Seeded Preview";
+  apiConnectionDetail.textContent = `${state.api.detail} · ${state.api.lastSync}`;
+  syncButton.disabled = state.syncBusy;
+  syncButton.textContent = state.syncBusy ? "Syncing..." : "Sync Control Tower";
+}
+
 function renderView() {
-  updateHeader();
-  const definition = sections[state.view];
-  viewContent.innerHTML = definition ? definition.render() : renderFallback();
+  updateTopbar();
+  const section = sections[state.view];
+  viewContent.innerHTML = section ? section.render() : renderFallback();
+  renderNavigation(state.filterText);
 }
 
 function setView(viewId) {
   state.view = viewId;
-  renderNavigation(navSearch.value);
   renderView();
 }
 
-function startRealtimePulse() {
-  setInterval(() => {
-    state.liveUsers += Math.floor(Math.random() * 120 - 35);
-    state.realtimeSessions += Math.floor(Math.random() * 14 - 5);
-    state.tasksToday += Math.floor(Math.random() * 90);
-    state.revenueToday += Math.floor(Math.random() * 3200);
+async function syncControlTower() {
+  state.syncBusy = true;
+  updateTopbar();
 
-    if (Math.random() > 0.92) {
-      state.systemStatus = "Attention";
-      state.systemColor = "orange";
-    } else {
-      state.systemStatus = "Operational";
-      state.systemColor = "green";
+  try {
+    const response = await fetch(`${state.api.base}/control-tower`, {
+      headers: { Accept: "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
 
-    state.liveUsers = Math.max(11000, state.liveUsers);
-    state.realtimeSessions = Math.max(220, state.realtimeSessions);
+    const data = await response.json();
+    state.snapshot = data;
+    state.api.mode = "live";
+    state.api.detail = `Connected to ${state.api.base}`;
+    state.api.lastSync = new Date().toLocaleString();
+  } catch (error) {
+    state.api.mode = "error";
+    state.api.detail = `Falling back to seeded preview (${error.message})`;
+    state.api.lastSync = new Date().toLocaleString();
+  } finally {
+    state.syncBusy = false;
     renderView();
-  }, 4200);
+  }
+}
+
+function startRealtimePulse() {
+  window.setInterval(() => {
+    const metrics = state.snapshot.dashboard.metrics;
+    const drift = Math.floor(Math.random() * 80) - 30;
+    metrics.activeUsers = Math.max(12000, metrics.activeUsers + drift);
+    metrics.tasksToday += Math.max(4, Math.floor(Math.random() * 26));
+    metrics.revenueToday += Math.max(180, Math.floor(Math.random() * 1400));
+    metrics.apiRequests += Math.max(400, Math.floor(Math.random() * 3400));
+    state.snapshot.meta.generatedAt = new Date().toISOString();
+    updateTopbar();
+
+    if (state.view === "command-center") {
+      renderView();
+    }
+  }, 7000);
 }
 
 sidebarNav.addEventListener("click", (event) => {
   const button = event.target.closest("[data-view]");
-  if (!button) return;
+  if (!button) {
+    return;
+  }
+
   setView(button.dataset.view);
 });
 
 navSearch.addEventListener("input", (event) => {
-  renderNavigation(event.target.value);
+  state.filterText = event.target.value;
+  renderNavigation(state.filterText);
+});
+
+syncButton.addEventListener("click", () => {
+  syncControlTower();
 });
 
 renderNavigation();
 renderView();
 startRealtimePulse();
+syncControlTower();

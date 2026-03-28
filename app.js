@@ -1,9 +1,53 @@
+/* ── Auth helpers ── */
+function getAuthToken() {
+  return localStorage.getItem(CONFIG.AUTH_TOKEN_KEY);
+}
+function getAdminUser() {
+  try { return JSON.parse(localStorage.getItem(CONFIG.AUTH_ADMIN_KEY) || 'null'); } catch { return null; }
+}
+function setAuth(token, admin) {
+  localStorage.setItem(CONFIG.AUTH_TOKEN_KEY, token);
+  localStorage.setItem(CONFIG.AUTH_ADMIN_KEY, JSON.stringify(admin));
+}
+function clearAuth() {
+  localStorage.removeItem(CONFIG.AUTH_TOKEN_KEY);
+  localStorage.removeItem(CONFIG.AUTH_ADMIN_KEY);
+}
+function isAuthenticated() {
+  return !!getAuthToken();
+}
+
+async function apiRequest(path, options = {}) {
+  const token = getAuthToken();
+  const headers = { ...(options.headers || {}) };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  headers['Content-Type'] = headers['Content-Type'] || 'application/json';
+
+  const resp = await fetch(path, { ...options, headers });
+  if (resp.status === 401) {
+    clearAuth();
+    showLoginScreen();
+    throw new Error('Session expired');
+  }
+  return resp;
+}
+
 const navigation = [
   {
     group: "Dashboard",
     items: [
       { id: "command-center", label: "Command Center", hint: "Global AGI mission control", badge: "Live" },
       { id: "system-health", label: "System Health", hint: "Runtime and infrastructure" },
+    ],
+  },
+  {
+    group: "Live Data",
+    items: [
+      { id: "live-status", label: "Live Status", hint: "DynamoDB + Platform health", badge: "Live" },
+      { id: "live-sessions", label: "Active Sessions", hint: "Real user sessions" },
+      { id: "live-users", label: "User Directory", hint: "DynamoDB user records" },
+      { id: "live-consents", label: "Consent Bundles", hint: "Signup consent status", badge: "Live" },
+      { id: "live-feature-consents", label: "Feature Permissions", hint: "Camera, mic, device-control grants", badge: "Live" },
     ],
   },
   {
@@ -627,6 +671,36 @@ const sections = {
     title: "Developer API Usage",
     breadcrumb: "Developer / API Usage",
     render: renderDeveloperUsage,
+  },
+  "live-status": {
+    title: "Live Status",
+    breadcrumb: "Live Data / Live Status",
+    render: () => '<div id="live-view-container"><p class="muted">Loading...</p></div>',
+    asyncRender: renderLiveStatus,
+  },
+  "live-sessions": {
+    title: "Active Sessions",
+    breadcrumb: "Live Data / Active Sessions",
+    render: () => '<div id="live-view-container"><p class="muted">Loading...</p></div>',
+    asyncRender: renderLiveSessions,
+  },
+  "live-users": {
+    title: "User Directory",
+    breadcrumb: "Live Data / User Directory",
+    render: () => '<div id="live-view-container"><p class="muted">Loading...</p></div>',
+    asyncRender: renderLiveUsers,
+  },
+  "live-consents": {
+    title: "Consent Bundles",
+    breadcrumb: "Live Data / Consent Bundles",
+    render: () => '<div id="live-view-container"><p class="muted">Loading...</p></div>',
+    asyncRender: renderLiveConsents,
+  },
+  "live-feature-consents": {
+    title: "Feature Permissions",
+    breadcrumb: "Live Data / Feature Permissions",
+    render: () => '<div id="live-view-container"><p class="muted">Loading...</p></div>',
+    asyncRender: renderLiveFeatureConsents,
   },
 };
 
@@ -1757,6 +1831,10 @@ function renderView() {
   updateTopbar();
   const section = sections[state.view];
   viewContent.innerHTML = section ? section.render() : renderFallback();
+  if (section && section.asyncRender) {
+    const container = document.getElementById('live-view-container') || viewContent;
+    section.asyncRender(container);
+  }
   renderNavigation(state.filterText);
 }
 
@@ -1770,7 +1848,7 @@ async function syncControlTower() {
   updateTopbar();
 
   try {
-    const response = await fetch(`${state.api.base}/control-tower`, {
+    const response = await apiRequest(`${state.api.base}/control-tower`, {
       headers: { Accept: "application/json" },
     });
 
@@ -1810,6 +1888,306 @@ function startRealtimePulse() {
   }, 7000);
 }
 
+/* ── Login / Logout ── */
+function showLoginScreen() {
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.querySelector('.shell').style.display = 'none';
+}
+function hideLoginScreen() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.querySelector('.shell').style.display = '';
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('login-username').value;
+  const password = document.getElementById('login-password').value;
+  const errorEl = document.getElementById('login-error');
+  errorEl.style.display = 'none';
+
+  try {
+    const base = resolveApiBase();
+    const resp = await fetch(base + '/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      errorEl.textContent = data.detail || 'Invalid credentials';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    const data = await resp.json();
+    setAuth(data.access_token, data.admin);
+    hideLoginScreen();
+    syncControlTower();
+  } catch (err) {
+    errorEl.textContent = 'Connection failed. Is the backend running?';
+    errorEl.style.display = 'block';
+  }
+}
+
+function handleLogout() {
+  clearAuth();
+  showLoginScreen();
+}
+
+/* ── Live Data Views ── */
+async function renderLiveStatus(container) {
+  container.innerHTML = '<p class="muted">Loading live status...</p>';
+  try {
+    const base = resolveApiBase();
+    const resp = await apiRequest(base + '/live/status');
+    if (!resp.ok) throw new Error('Failed to fetch');
+    const data = await resp.json();
+
+    const dynamo = data.dynamodb || {};
+    const platform = data.platform || {};
+    const platformApi = platform.platformApi || {};
+    const livekit = platform.livekitRuntime || {};
+
+    container.innerHTML = `
+      <div class="metric-grid">
+        <article class="metric-card panel">
+          <div class="metric-header"><span class="metric-label">DynamoDB</span>
+            <span class="status-pill ${dynamo.available ? 'success' : 'danger'}">${dynamo.available ? 'Connected' : 'Unavailable'}</span></div>
+          <strong class="metric-value">${dynamo.totalItems ?? '—'}</strong>
+          <p class="metric-caption muted">Total memory records</p>
+          <p class="muted small">24h interactions: ${dynamo.interactions24h ?? '—'} | 1h: ${dynamo.interactions1h ?? '—'}</p>
+        </article>
+        <article class="metric-card panel">
+          <div class="metric-header"><span class="metric-label">AGI-1 Platform API</span>
+            <span class="status-pill ${platformApi.reachable ? 'success' : 'danger'}">${platformApi.status || 'Unknown'}</span></div>
+          <strong class="metric-value">${platform.apiBase || '—'}</strong>
+          <p class="metric-caption muted">Platform endpoint</p>
+        </article>
+        <article class="metric-card panel">
+          <div class="metric-header"><span class="metric-label">LiveKit Runtime</span>
+            <span class="status-pill ${livekit.available ? 'success' : 'warning'}">${livekit.available ? 'Active' : 'Check'}</span></div>
+          <strong class="metric-value">${livekit.available ? 'Online' : 'Offline'}</strong>
+          <p class="metric-caption muted">Voice & video bridge</p>
+        </article>
+        <article class="metric-card panel">
+          <div class="metric-header"><span class="metric-label">Data Source</span></div>
+          <strong class="metric-value">${data.dataSource === 'live' ? 'Live DynamoDB' : 'Seeded Preview'}</strong>
+          <p class="metric-caption muted">Current data mode</p>
+        </article>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = '<p class="muted">Unable to fetch live status. Backend may be offline.</p>';
+  }
+}
+
+async function renderLiveSessions(container) {
+  container.innerHTML = '<p class="muted">Loading sessions...</p>';
+  try {
+    const base = resolveApiBase();
+    const resp = await apiRequest(base + '/live/sessions');
+    if (!resp.ok) throw new Error('Failed');
+    const data = await resp.json();
+
+    if (!data.sessions || data.sessions.length === 0) {
+      container.innerHTML = '<p class="muted">No active sessions found in DynamoDB. Sessions appear when users interact with Jack or Julia.</p>';
+      return;
+    }
+
+    let rows = data.sessions.map(s => `
+      <tr>
+        <td>${s.user_id}</td>
+        <td>${s.avatar || '—'}</td>
+        <td>${s.message_count}</td>
+        <td>${(s.topics || []).join(', ') || '—'}</td>
+        <td>${s.last_activity ? s.last_activity.slice(0, 16).replace('T', ' ') : '—'}</td>
+        <td><button class="command-button small" onclick="viewConversation('${s.user_id}')">View</button></td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <p class="muted" style="margin-bottom:1rem;">Source: <strong>${data.source}</strong> | ${data.count} sessions (last 24h)</p>
+      <div class="table-wrap panel">
+        <table>
+          <thead><tr><th>User ID</th><th>Avatar</th><th>Messages</th><th>Topics</th><th>Last Activity</th><th>Actions</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = '<p class="muted">Unable to load sessions. Check backend connection.</p>';
+  }
+}
+
+async function renderLiveUsers(container) {
+  container.innerHTML = '<p class="muted">Loading user directory...</p>';
+  try {
+    const base = resolveApiBase();
+    const resp = await apiRequest(base + '/live/users');
+    if (!resp.ok) throw new Error('Failed');
+    const data = await resp.json();
+
+    if (!data.users || data.users.length === 0) {
+      container.innerHTML = '<p class="muted">No users found in DynamoDB. Users appear when they interact with Jack or Julia.</p>';
+      return;
+    }
+
+    let rows = data.users.map(u => `
+      <tr>
+        <td>${u.user_id}</td>
+        <td>${u.interaction_count}</td>
+        <td>${u.session_count || 0}</td>
+        <td>${(u.avatars_used || []).join(', ')}</td>
+        <td>${(u.topics || []).slice(0, 3).join(', ') || '—'}</td>
+        <td>${u.first_seen ? u.first_seen.slice(0, 10) : '—'}</td>
+        <td><button class="command-button small" onclick="viewConversation('${u.user_id}')">History</button></td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <p class="muted" style="margin-bottom:1rem;">Source: <strong>${data.source}</strong> | ${data.count} unique users</p>
+      <div class="table-wrap panel">
+        <table>
+          <thead><tr><th>User ID</th><th>Interactions</th><th>Sessions</th><th>Avatars</th><th>Topics</th><th>First Seen</th><th>Actions</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = '<p class="muted">Unable to load users. Check backend connection.</p>';
+  }
+}
+
+async function renderLiveConsents(container) {
+  container.innerHTML = '<p class="muted">Loading consent bundles...</p>';
+  try {
+    const base = resolveApiBase();
+    const resp = await apiRequest(base + '/live/consents');
+    if (!resp.ok) throw new Error('Failed');
+    const data = await resp.json();
+
+    const records = data.records || [];
+    const rows = records.map((record) => `
+      <tr>
+        <td>${record.user_id || '—'}</td>
+        <td>${record.master_consent_granted ? 'Granted' : 'Missing'}</td>
+        <td>${record.consent_bundle_version || '—'}</td>
+        <td>${record.data_breakdown_version || '—'}</td>
+        <td>${record.ip_address || '—'}</td>
+        <td>${record.consent_timestamp ? record.consent_timestamp.slice(0, 16).replace('T', ' ') : '—'}</td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="metric-grid">
+        <article class="metric-card panel">
+          <div class="metric-header"><span class="metric-label">Consent Table</span></div>
+          <strong class="metric-value">${data.table || '—'}</strong>
+          <p class="metric-caption muted">Current source</p>
+        </article>
+        <article class="metric-card panel">
+          <div class="metric-header"><span class="metric-label">Fully Consented</span></div>
+          <strong class="metric-value">${data.fullyConsented ?? 0}</strong>
+          <p class="metric-caption muted">Master consent bundle granted</p>
+        </article>
+        <article class="metric-card panel">
+          <div class="metric-header"><span class="metric-label">Missing Required</span></div>
+          <strong class="metric-value">${data.missingRequired ?? 0}</strong>
+          <p class="metric-caption muted">Users needing review</p>
+        </article>
+      </div>
+      <div class="table-wrap panel" style="margin-top:1rem;">
+        <table>
+          <thead><tr><th>User ID</th><th>Status</th><th>Bundle</th><th>Breakdown</th><th>IP</th><th>Timestamp</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="6">No consent records found.</td></tr>'}</tbody>
+        </table>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = '<p class="muted">Unable to load consent bundle data. Check backend connection.</p>';
+  }
+}
+
+async function renderLiveFeatureConsents(container) {
+  container.innerHTML = '<p class="muted">Loading feature permissions...</p>';
+  try {
+    const base = resolveApiBase();
+    const resp = await apiRequest(base + '/live/feature-consents');
+    if (!resp.ok) throw new Error('Failed');
+    const data = await resp.json();
+
+    const breakdown = Object.entries(data.featureBreakdown || {})
+      .map(([key, value]) => `<div class="metric-card panel"><div class="metric-header"><span class="metric-label">${key.replace(/_/g, ' ')}</span></div><strong class="metric-value">${value}</strong><p class="metric-caption muted">Granted users</p></div>`)
+      .join('');
+
+    const rows = (data.records || []).map((record) => `
+      <tr>
+        <td>${record.user_id || '—'}</td>
+        <td>${record.feature_name || '—'}</td>
+        <td>${record.granted ? 'Granted' : 'Revoked'}</td>
+        <td>${record.source || '—'}</td>
+        <td>${record.granted_at ? record.granted_at.slice(0, 16).replace('T', ' ') : '—'}</td>
+        <td>${record.revoked_at ? record.revoked_at.slice(0, 16).replace('T', ' ') : '—'}</td>
+      </tr>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="metric-grid">
+        ${breakdown || '<article class="metric-card panel"><strong class="metric-value">0</strong><p class="metric-caption muted">No feature permissions recorded yet</p></article>'}
+      </div>
+      <div class="table-wrap panel" style="margin-top:1rem;">
+        <table>
+          <thead><tr><th>User ID</th><th>Feature</th><th>Status</th><th>Source</th><th>Granted At</th><th>Revoked At</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="6">No feature consent records found.</td></tr>'}</tbody>
+        </table>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = '<p class="muted">Unable to load feature-consent data. Check backend connection.</p>';
+  }
+}
+
+async function viewConversation(userId) {
+  const container = document.getElementById('view-content');
+  container.innerHTML = '<p class="muted">Loading conversation...</p>';
+  try {
+    const base = resolveApiBase();
+    const resp = await apiRequest(base + '/live/conversations/' + encodeURIComponent(userId));
+    if (!resp.ok) throw new Error('Failed');
+    const data = await resp.json();
+
+    if (!data.messages || data.messages.length === 0) {
+      container.innerHTML = `<p class="muted">No conversation history for ${userId}.</p>
+        <button class="command-button" onclick="navigate('live-sessions')">Back to Sessions</button>`;
+      return;
+    }
+
+    let bubbles = data.messages.map(m => {
+      const isUser = m.role === 'user';
+      return `<div class="conversation-bubble ${isUser ? 'user' : 'assistant'}">
+        <p class="muted small">${isUser ? 'User' : (m.avatar || 'Assistant').charAt(0).toUpperCase() + (m.avatar || 'assistant').slice(1)} &mdash; ${(m.timestamp || '').slice(0, 16).replace('T', ' ')}</p>
+        <p>${m.content || ''}</p>
+      </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3>Conversation: ${userId}</h3>
+        <button class="command-button" onclick="navigate('live-sessions')">Back</button>
+      </div>
+      <p class="muted" style="margin-bottom:1rem;">${data.count} messages</p>
+      <div class="panel" style="padding:1.5rem; max-height:600px; overflow-y:auto;">${bubbles}</div>
+    `;
+  } catch (err) {
+    container.innerHTML = '<p class="muted">Unable to load conversation.</p>';
+  }
+}
+
+function navigate(viewId) {
+  setView(viewId);
+}
+
 sidebarNav.addEventListener("click", (event) => {
   const button = event.target.closest("[data-view]");
   if (!button) {
@@ -1831,4 +2209,12 @@ syncButton.addEventListener("click", () => {
 renderNavigation();
 renderView();
 startRealtimePulse();
-syncControlTower();
+
+// Auth check on boot
+document.getElementById('login-form')?.addEventListener('submit', handleLogin);
+if (!isAuthenticated()) {
+  showLoginScreen();
+} else {
+  hideLoginScreen();
+  syncControlTower();
+}

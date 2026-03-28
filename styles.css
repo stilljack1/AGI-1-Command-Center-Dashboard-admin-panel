@@ -911,3 +911,91 @@ td {
     width: 100%;
   }
 }
+
+/* ── Login Screen ── */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-root);
+  transition: opacity 0.3s ease;
+}
+.login-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.form-group input {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-root);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus {
+  border-color: var(--cyan);
+}
+.login-error {
+  color: #ff5c5c;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+/* ── Live Data Section ── */
+.live-badge {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(114, 245, 255, 0.15);
+  color: var(--cyan);
+  margin-left: 0.4rem;
+}
+.conversation-bubble {
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  max-width: 80%;
+}
+.conversation-bubble.user {
+  background: rgba(42, 102, 255, 0.15);
+  margin-left: auto;
+}
+.conversation-bubble.assistant {
+  background: rgba(114, 245, 255, 0.08);
+}
+.logout-button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.logout-button:hover {
+  border-color: #ff5c5c;
+  color: #ff5c5c;
+}
